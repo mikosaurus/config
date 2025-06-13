@@ -1,0 +1,242 @@
+;; NOTE that æå and | here is just used to substitute ( ) and \
+(deflocalkeys-linux
+  ø   39
+  å   26
+  æ   40
+  +   12
+  ¨   27
+  '   43 
+  -   53
+  \   13
+  |   41
+  RA  100
+)
+
+;; NOTE that æå and | here is just used to substitute ( ) and \
+
+
+(deflocalkeys-win
+  ø    192
+  ¨    186
+  +    187
+  '    191
+  \    219
+  |    220
+  RA   165
+)
+
+(defalias
+  ;; shifted german keys
+  slask	S-7
+  _ S--
+  $ RA-4
+  ﴾	S-8  ;; unicode FD3E ﴾ look-a-like is used because @( is no valid alias, to be displayed correctly...
+  ﴿	S-9  ;; unicode FD3F ﴿ look-a-like is used because @) is no valid alias, to be displayed correctly ...
+  > S-<
+  < <   ;; not really needed but having @< and @> looks consistent
+  ` (macro S-\ spc)
+  ;; change dead keys in normal keys
+;;  ^ S-¨    ;; ^ = \ - shifting @^ will produce an incorrect space now
+  ^ (macro S-¨ spc)    ;; ^ = \ - shifting @^ will produce an incorrect space now
+  ~ (macro RA-¨ spc)
+  
+  = S-0
+  ! S-1
+  
+  qwt S-2
+  * S-'
+  / S-7
+
+  at RA-2
+  # S-3
+  % S-5
+  & S-6
+  ? S-+
+
+  ;; AltGr keys
+  ´ A-C-\
+  ;;{ A-C-7
+  ;;} A-C-0
+  ;;[ A-C-8
+  ;;] A-C-9
+  { RA-7
+  } RA-0
+  [ RA-8
+  ] RA-9
+
+  ;; One shot modifiers
+  osft (one-shot-press 2000 lsft)
+  octr (one-shot-press 2000 lctl)
+  oalt (one-shot-press 2000 lalt)
+  ogui (one-shot-press 2000 lmet)
+  osg  (multi (one-shot-press 2000 lsft) (one-shot-press 2000 lmet))
+
+  nav (layer-switch nav)
+  sym (layer-switch sym)
+  smx (layer-switch smx)
+  num (layer-switch num)
+
+  w1 (multi @ogui 1)
+  w2 (multi @ogui 2)
+  w3 (multi @ogui 3)
+  w4 (multi @ogui 4)
+  w5 (multi @ogui 5)
+  w6 (multi @ogui 6)
+  w7 (multi @ogui 7)
+  w8 (multi @ogui 8)
+
+  big (multi @octr +)
+  sml (multi @octr -)
+)
+
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+  windows-altgr cancel-lctl-press
+)
+
+(defsrc
+    q  w  e  r  t  y  u  i  o  p
+    a  s  d  f  g  h  j  k  l  ø
+    z  x  c  v  b  n  m  ,  .  -
+               spc 
+)
+
+;; (defchordsv2
+;;  (w e) esc 50 all-released (extend)
+;;  (i o) bspc 50 all-released (extend)
+;;  (s d) tab 50 all-released (extend)
+;;  (k l) ret 50 all-released (extend)
+;; )
+
+(deftemplate charmod (char mod)
+  (switch 
+    ((key-timing 3 less-than 375)) $char break
+    () (tap-hold-release-timeout 200 500 $char $mod $char) break
+
+  )
+)
+
+
+(defvirtualkeys
+  shift (multi (layer-switch main) lsft)
+  clear (multi (layer-switch main) (on-press release-virtualkey shift))
+)
+
+(deflayermap (main)
+  a (t! charmod a lmet)
+  s (t! charmod s lalt)
+  d (t! charmod d lsft)
+  f (t! charmod f lctl)
+
+  j (t! charmod j rctl)
+  k (t! charmod k rsft)
+  l (t! charmod l ralt)
+  ø (t! charmod ø lmet)
+
+  spc (t! charmod spc (multi (layer-switch nav) (on-release tap-virtualkey clear)))
+)
+
+(deflayermap (symbols)
+  ;; q 1
+  q (layer-switch num)
+  ;; w 2
+  w (layer-switch sym)
+  e 3
+  r 4
+  t 5
+  y 6
+  u 7
+  i 8
+  o 9
+  p 0
+  ;; a (t! charmod | lmet)
+  a |
+  s (t! charmod @[ lalt)
+  d (t! charmod @{ lsft)
+  f (t! charmod @﴾ lctl)
+  g '
+  h +
+  j (t! charmod @﴿ rctl)
+  k (t! charmod @} rsft)
+  l (t! charmod @] lalt)
+  ;; ø (t! charmod \ rmet)
+  ø \
+  ;;z (t! charmod lsgt lctl)
+  x RA-2
+  c @_
+  v @^
+  b @~
+  n @$
+  m @=
+  , @<
+  . @>
+  - @slask
+
+  ;;b f11
+  ;;n f12
+  ;;m '
+  ;;, @[
+  ;;. (t! charmod @] ralt)
+  ;;- (t! charmod - lctl)
+  z (layer-switch extend)
+)
+
+
+(deflayermap (extend)
+  r (on-press press-virtualkey shift)
+  y ins
+  u home
+  i esc
+  o end
+  p pgup
+  a lmet
+  s lalt
+  d lsft
+  f lctl
+;;g comp ;; Enable if not MacOS.
+  h left
+  j down
+  k up
+  l rght
+  ø pgdn
+  z (layer-switch extend)
+  x vold
+  c volu
+  v pp
+  n tab
+  m bspc
+  , spc
+  . del
+  - ret
+)
+
+(deflayer num
+    XX XX @* XX   XX    XX  7   8   9   XX
+    XX  - @= +    @ogui  0  4   5   6   XX
+    XX XX @/ bspc @osg bspc 1   2   3   XX
+               spc 
+)
+
+(deflayer sym
+    XX  @at @#  @*  @%  @&  +  @!   @=  XX
+    |   @[  @{  @﴾  @qwt '  @﴿  @}  @]  @`
+    XX  @_  @^   \  @<  @>  @slask  @~  @$  XX
+                     spc     
+)
+
+(deflayer smx
+    F1 F2 F3 F4  F5      XX  @?   @!  @=   @big
+     q  w XX S-, XX      XX  S-.  XX  -    @sml
+    F6 F7 F8 F9 F10      ret bspc XX  F11  F12
+                     spc     
+)
+
+
+(deflayer nav
+    @w7   @w3   @w2   @w1   @sym  @num @w4   @w5  @w6   @w8
+    @ogui @oalt @osft @octr @smx  left down  up   right XX
+    @osg  home  tab   esc   spc   ret  bspc  del  end   XX
+                          spc 
+)
+

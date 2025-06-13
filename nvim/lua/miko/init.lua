@@ -1,0 +1,7 @@
+require("miko.remap")
+require("miko.nbremap")
+-- require("miko.packer")
+require("miko.lazy")
+require("miko.set")
+require("miko.autocmd")
+require("miko.dapconfig")
