@@ -6,6 +6,8 @@
 
 DRY_RUN=false
 RELOAD_KANATA=false
+ENABLE_KANATA_SERVICE=false
+DISABLE_KANATA_SERVICE=false
 
 for var in "$@"
 do
@@ -13,6 +15,10 @@ do
         DRY_RUN=true
     elif [ "$var" = "--reload-kanata" ]; then
         RELOAD_KANATA=true 
+    elif [ "$var" = "--enable-kanata" ]; then
+        ENABLE_KANATA_SERVICE=true 
+    elif [ "$var" = "--disable-kanata" ]; then
+        DISABLE_KANATA_SERVICE=true 
     fi
 done
 
