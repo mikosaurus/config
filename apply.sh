@@ -29,13 +29,33 @@ echo $RELOAD_KANATA
 
 
 # nvim
-# cp -r ./nvim $CONFIG_HOME
+if [ "$DRY_RUN" = false ]; then 
+    cp -r ./nvim $CONFIG_HOME
+fi
 
 # tmux
-# cp -r ./tmux $CONFIG_HOME
-# tmux source-file $CONFIG_HOME/tmux/tmux.conf
+if [ "$DRY_RUN" = false ]; then 
+    cp -r ./tmux $CONFIG_HOME
+    tmux source-file $CONFIG_HOME/tmux/tmux.conf
+fi
 
 # kanata 
 # kanata will only copy the file unless the "--reload-kanata" flag
+if [ "$DRY_RUN" = false ]; then 
+    # cp -r ./kanata $CONFIG_HOME
+    # sh ./kanata/cponf.sh
+    if [ "$RELOAD_KANATA" = true ]; then 
+        sudo cp ./kanata.kbd /usr/share/kanata/kanata.kbd
+        cp ./kanata/kanata.service $CONFIG_HOME/systemd/user/kanata.service
+        systemctl --user daemon-reload
+        systemctl --user restart kanata.service
+    fi
+    if [ "$ENABLE_KANATA_SERVICE" = true ]; then 
+        systemctl --user enable kanata.service
+    fi
+    if [ "$DISABLE_KANATA_SERVICE" = true ]; then 
+        systemctl --user disable kanata.service
+    fi
+fi
 
 
