@@ -64,4 +64,12 @@ if [ "$DRY_RUN" = false ]; then
     fi
 fi
 
+# oh my zsh
+# /home/anders/.oh-my-zsh/custom
 
+zshconf=~/.oh-my-zsh/custom
+if test -d "$zshconf"; then
+    cp oh-my-zsh/* ~/.oh-my-zsh/custom/
+else 
+    echo "could ot find zsh custom folder"
+fi
