@@ -4,7 +4,7 @@
 # Usage: source parse_params.sh && parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 parse_params() {
     # Handle case where no parameters are passed
-    if [[ $# -lt 2 ]]; then
+    if [[ $# -lt 3 ]]; then
         return 0
     fi
     

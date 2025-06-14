@@ -40,11 +40,9 @@ if [ "$DRY_RUN" = true ]; then
 fi
 
 if [ -z "${XDG_CONFIG_HOME}" ]; then
-    echo "missing XDG_CONFIG_HOME, defauting to ~/.config"
     CONFIG_HOME=~/.config
 else
     CONFIG_HOME=${XDG_CONFIG_HOME}
-    echo "setting CONFIG_HOME to ${CONFIG_HOME}"
 fi
 
 # nvim section

@@ -17,11 +17,9 @@ declare -A FLAG_DESCRIPTIONS=(
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 
 if [ -z "${XDG_CONFIG_HOME}" ]; then
-    echo "missing XDG_CONFIG_HOME, defauting to ~/.config"
     CONFIG_HOME=~/.config
 else
     CONFIG_HOME=${XDG_CONFIG_HOME}
-    echo "setting CONFIG_HOME to ${CONFIG_HOME}"
 fi
 
 # Check if zsh is installed
