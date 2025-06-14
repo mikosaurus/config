@@ -5,6 +5,9 @@ DRY_RUN=false
 RELOAD_KANATA=false
 ENABLE_KANATA_SERVICE=false
 DISABLE_KANATA_SERVICE=false
+NVIM=false
+TMUX=false
+ZSH=false
 
 # Flag definitions
 declare -A FLAGS=(
@@ -12,9 +15,11 @@ declare -A FLAGS=(
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
+    ["--nvim"]="NVIM"
+    ["--tmux"]="TMUX"
+    ["--zsh"]="ZSH"
 )
 
-echo "${FLAGS[--dry-run]}"
 
 # Flag descriptions for help
 declare -A FLAG_DESCRIPTIONS=(
@@ -22,22 +27,17 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
+    ["--nvim"]="copy nvim config"
+    ["--tmux"]="copy and reload tmux config"
+    ["--zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
 )
 
 # Parse command line arguments
-for var in "$@"
-do
-    if [[ -n "${FLAGS[$var]}" ]]; then
-        declare "${FLAGS[$var]}"=true
-    else
-        echo "Unknown flag: $var"
-        echo "Available flags:"
-        for flag in "${!FLAG_DESCRIPTIONS[@]}"; do
-            echo "  $flag - ${FLAG_DESCRIPTIONS[$flag]}"
-        done
-        exit 1
-    fi
-done
+parse_params "$@" FLAGS FLAG_DESCRIPTIONS
+
+if [ "$DRY_RUN" = true ]; then
+    echo "Dry run mode enabled. No changes will be made."
+fi
 
 if [ -z "${XDG_CONFIG_HOME}" ]; then
     echo "missing XDG_CONFIG_HOME, defauting to ~/.config"
@@ -47,46 +47,105 @@ else
     echo "setting CONFIG_HOME to ${CONFIG_HOME}"
 fi
 
-echo $DRY_RUN
-echo $RELOAD_KANATA
-
-
-# nvim
-if [ "$DRY_RUN" = false ]; then 
-    cp -r ./nvim $CONFIG_HOME
-fi
+# nvim section
+if [ "$NVIM" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        ./nvim.sh --dry-run 
+    else
+        ./nvim.sh
+    fi 
+fi 
 
 # tmux
-if [ "$DRY_RUN" = false ]; then 
-    cp -r ./tmux $CONFIG_HOME
-    tmux source-file $CONFIG_HOME/tmux/tmux.conf
-fi
-
-# kanata 
-# kanata will only copy the file unless the "--reload-kanata" flag
-if [ "$DRY_RUN" = false ]; then 
-    # cp -r ./kanata $CONFIG_HOME
-    # sh ./kanata/cponf.sh
-    if [ "$RELOAD_KANATA" = true ]; then 
-        sudo cp ./kanata.kbd /usr/share/kanata/kanata.kbd
-        cp ./kanata/kanata.service $CONFIG_HOME/systemd/user/kanata.service
-        systemctl --user daemon-reload
-        systemctl --user restart kanata.service
-    fi
-    if [ "$ENABLE_KANATA_SERVICE" = true ]; then 
-        systemctl --user enable kanata.service
-    fi
-    if [ "$DISABLE_KANATA_SERVICE" = true ]; then 
-        systemctl --user disable kanata.service
+if [ "$TMUX" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        ./tmux.sh --dry-run 
+    else
+        ./tmux.sh
     fi
 fi
 
-# oh my zsh
-# /home/anders/.oh-my-zsh/custom
+# zsh
+if [ "ZSH" = true ]; then
+    if [ "DRY_RUN" = true ]; then
+        ./zsh.sh --dry-run
+    else
+        ./zsh.sh
+    fi
+    # Check if zsh is installed
+    if ! command -v zsh >/dev/null 2>&1; then
+        echo "zsh is not installed."
+        read -p "Would you like to install zsh? (y/n): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Installing zsh..."
+            # Add installation command based on OS
+            if command -v apt-get >/dev/null 2>&1; then
+                sudo apt-get update && sudo apt-get install -y zsh
+            elif command -v yum >/dev/null 2>&1; then
+                sudo yum install -y zsh
+            elif command -v pacman >/dev/null 2>&1; then
+                sudo pacman -S --noconfirm zsh
+            elif command -v brew >/dev/null 2>&1; then
+                brew install zsh
+            fi
+        else
+            echo "Skipping zsh installation"
+            exit 1
+        fi
 
-zshconf=~/.oh-my-zsh/custom
-if test -d "$zshconf"; then
-    cp oh-my-zsh/* ~/.oh-my-zsh/custom/
-else 
-    echo "could ot find zsh custom folder"
+    fi
+
+    # Check if oh my zsh is installed
+    # oh my zsh
+    # ~/.oh-my-zsh/custom
+    zshconf=~/.oh-my-zsh
+    if ! command -v zsh >/dev/null 2>&1; then
+        if test -d "$zshconf"; then
+            # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+            cp oh-my-zsh/* $zshconf/custom/
+        else 
+            if command -v curl >/dev/null 2>&1; then
+                echo "oh my zsh is not installed."
+                read -p "Would you like to install oh-my-zsh? (y/n): " -n 1 -r
+                echo
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    echo "Installing zsh..."
+                    # Add installation command based on OS
+                    if command -v apt-get >/dev/null 2>&1; then
+                        sudo apt-get update && sudo apt-get install -y zsh
+                    elif command -v yum >/dev/null 2>&1; then
+                        sudo yum install -y zsh
+                    elif command -v pacman >/dev/null 2>&1; then
+                        sudo pacman -S --noconfirm zsh
+                    elif command -v brew >/dev/null 2>&1; then
+                        brew install zsh
+                    fi
+                else
+                    echo "Skipping oh-my-zsh installation"
+                fi
+            else
+                echo "Cannot install oh my zsh without curl installed, ensure it is installed then try again"
+            fi
+        fi
+    fi
 fi
+
+# kanata section
+KANATA_FLAGS=()
+if [ "$DRY_RUN" = true ]; then
+    KANATA_FLAGS+=("--dry-run")
+fi
+if [ "$RELOAD_KANATA" = true ]; then
+    KANATA_FLAGS+=("--reload-kanata")
+fi
+if [ "$ENABLE_KANATA_SERVICE" = true ]; then
+    KANATA_FLAGS+=("--enable-kanata")
+fi
+if [ "$DISABLE_KANATA_SERVICE" = true ]; then
+    KANATA_FLAGS+=("--disable-kanata")
+fi
+
+if [ ${#KANATA_FLAGS[@]} -gt 0 ]; then
+    ./kanata.sh "${KANATA_FLAGS[@]}"
+fi 

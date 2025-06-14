@@ -1,0 +1,72 @@
+#!/bin/bash
+
+RELOAD_KANATA=false
+ENABLE_KANATA_SERVICE=false
+DISABLE_KANATA_SERVICE=false
+
+# Flag definitions
+declare -A FLAGS=(
+    ["--dry-run"]="DRY_RUN"
+    ["--reload-kanata"]="RELOAD_KANATA"
+    ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
+    ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
+)
+
+# Flag descriptions for help
+declare -A FLAG_DESCRIPTIONS=(
+    ["--dry-run"]="this will not actually do anything, just pretend :D"
+    ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
+    ["--enable-kanata"]="enable kanata systemd service"
+    ["--disable-kanata"]="disable kanata systemd service"
+)
+
+# Parse command line arguments
+parse_params "$@" FLAGS FLAG_DESCRIPTIONS
+
+# kanata 
+if ! command -v kanata >/dev/null 2>&1; then
+    echo "kanata not available, install it before retrying kanata at:"
+    echo "https://github.com/jtroo/kanata/releases"
+    exit(0)
+fi
+
+if [ "$RELOAD_KANATA" = true ]; then 
+    if [ "$DRY_RUN" = false ]; then 
+        sudo cp ./kanata.kbd /usr/share/kanata/kanata.kbd
+        # Check if systemd is available
+        if command -v systemctl >/dev/null 2>&1; then
+            cp ./kanata/kanata.service $CONFIG_HOME/systemd/user/kanata.service
+            systemctl --user daemon-reload
+            systemctl --user restart kanata.service
+        else
+            echo "systemctl not found - systemd services not supported on this system"
+        fi
+    else
+        echo "Copying kanata.kbd to /usr/share/kanata/kanata.kbd"
+        if command -v systemctl >/dev/null 2>&1; then
+            echo "Copying kanata.service to $CONFIG_HOME/systemd/user/kanata.service"
+        else
+            echo "systemctl not found - skipping systemd service setup"
+        fi
+    fi
+fi
+
+if [ "$ENABLE_KANATA_SERVICE" = true ]; then 
+    if [ "$DRY_RUN" = false ]; then 
+        if command -v systemctl >/dev/null 2>&1; then
+            systemctl --user enable kanata.service
+        else
+            echo "systemctl not found - cannot enable service"
+        fi
+    fi
+fi
+
+if [ "$DISABLE_KANATA_SERVICE" = true ]; then 
+    if [ "$DRY_RUN" = false ]; then 
+        if command -v systemctl >/dev/null 2>&1; then
+            systemctl --user disable kanata.service
+        else
+            echo "systemctl not found - cannot disable service"
+        fi
+    fi
+fi
