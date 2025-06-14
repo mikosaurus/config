@@ -6,6 +6,7 @@ source "$(dirname "$0")/lib/help.sh"
 source "$(dirname "$0")/lib/nvim.sh"
 source "$(dirname "$0")/lib/tmux.sh"
 source "$(dirname "$0")/lib/kanata.sh"
+source "$(dirname "$0")/lib/hyprland.sh"
 
 
 # Configuration variables
@@ -17,6 +18,7 @@ NVIM=false
 TMUX_CONF=false
 ZSH=false
 WG=false
+HYPRLAND=false
 
 # Flag definitions
 declare -A FLAGS=(
@@ -24,6 +26,7 @@ declare -A FLAGS=(
     ["tmux"]="TMUX_CONF"
     ["zsh"]="ZSH"
     ["wg"]="WG"
+    ["hyprland"]="HYPRLAND"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -37,6 +40,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["tmux"]="copy and reload tmux config"
     ["zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
     ["wg"]="install wireguard and configure it"
+    ["hyprland"]="copy hyprland config to ~/.config/hypr (only if hyprctl is available)"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -82,7 +86,7 @@ if [ "$TMUX_CONF" = true ]; then
 fi
 
 # zsh
-if [ "ZSH" = true ]; then
+if [ "$ZSH" = true ]; then
     if [ "DRY_RUN" = true ]; then
         zsh_conf --dry-run
     else
@@ -107,4 +111,13 @@ fi
 
 if [ ${#KANATA_FLAGS[@]} -gt 0 ]; then
     kanata_conf "${KANATA_FLAGS[@]}"
+fi
+
+# hyprland
+if [ "$HYPRLAND" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        hyprland_conf --dry-run 
+    else
+        hyprland_conf
+    fi 
 fi 
