@@ -43,7 +43,6 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--dry-run"]="this will not actually do anything, just pretend :D"
 )
 
-
 # Check for help or no parameters
 if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]] || [[ " $* " == *" help "* ]]; then
     print_help "$0" "Apply dotfile configurations to your system with optional component selection and service management" FLAGS FLAG_DESCRIPTIONS
@@ -52,6 +51,7 @@ fi
 
 # Parse command line arguments
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS
+
 
 if [ "$DRY_RUN" = true ]; then
     echo "Dry run mode enabled. No changes will be made."
