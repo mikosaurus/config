@@ -7,6 +7,8 @@ alias mks="cd ~/github.com/mikosaurus"
 alias misc="cd ~/github.com/mikosaurus/misc"
 alias notes="cd ~/github.com/mikosaurus/misc/notes"
 
+alias mikopi="ssh pi@mikopi.local.mikosaurus.net"
+
 alias home="cd $HOME"
 
 alias start-clean-postgres="docker run --rm --name dummy-psql -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -d postgres:15"
