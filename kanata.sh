@@ -25,8 +25,8 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--disable-kanata"]="disable kanata systemd service"
 )
 
-# Check for help or no parameters
-if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]]; then
+# Check for help
+if [[ " $* " == *" --help "* ]]; then
     print_help "$0" FLAGS FLAG_DESCRIPTIONS
     exit 0
 fi
