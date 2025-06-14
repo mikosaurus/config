@@ -20,27 +20,27 @@ WG=false
 
 # Flag definitions
 declare -A FLAGS=(
-    ["--dry-run"]="DRY_RUN"
-    ["--reload-kanata"]="RELOAD_KANATA"
-    ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
-    ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
     ["nvim"]="NVIM"
     ["tmux"]="TMUX_CONF"
     ["zsh"]="ZSH"
     ["wg"]="WG"
+    ["--reload-kanata"]="RELOAD_KANATA"
+    ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
+    ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
+    ["--dry-run"]="DRY_RUN"
 )
 
 
 # Flag descriptions for help
 declare -A FLAG_DESCRIPTIONS=(
-    ["--dry-run"]="this will not actually do anything, just pretend :D"
-    ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
-    ["--enable-kanata"]="enable kanata systemd service"
-    ["--disable-kanata"]="disable kanata systemd service"
     ["nvim"]="copy nvim config"
     ["tmux"]="copy and reload tmux config"
     ["zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
     ["wg"]="install wireguard and configure it"
+    ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
+    ["--enable-kanata"]="enable kanata systemd service"
+    ["--disable-kanata"]="disable kanata systemd service"
+    ["--dry-run"]="this will not actually do anything, just pretend :D"
 )
 
 

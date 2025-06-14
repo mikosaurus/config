@@ -25,8 +25,29 @@ print_help() {
     # Add some padding
     max_length=$((max_length + 4))
     
-    # Print each flag with its description
+    # Separate flags into two arrays: without -- and with --
+    local non_dashed_flags=()
+    local dashed_flags=()
+    
     for flag in "${!flags_ref[@]}"; do
+        if [[ "$flag" == --* ]]; then
+            dashed_flags+=("$flag")
+        else
+            non_dashed_flags+=("$flag")
+        fi
+    done
+    
+    # Sort both arrays
+    IFS=$'\n' non_dashed_flags=($(sort <<<"${non_dashed_flags[*]}"))
+    IFS=$'\n' dashed_flags=($(sort <<<"${dashed_flags[*]}"))
+    
+    # Print non-dashed flags first
+    for flag in "${non_dashed_flags[@]}"; do
+        printf "  %-${max_length}s %s\n" "$flag" "${descriptions_ref[$flag]}"
+    done
+    
+    # Print dashed flags second
+    for flag in "${dashed_flags[@]}"; do
         printf "  %-${max_length}s %s\n" "$flag" "${descriptions_ref[$flag]}"
     done
     
