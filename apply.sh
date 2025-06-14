@@ -12,6 +12,7 @@ DISABLE_KANATA_SERVICE=false
 NVIM=false
 TMUX=false
 ZSH=false
+WG=false
 
 # Flag definitions
 declare -A FLAGS=(
@@ -22,6 +23,7 @@ declare -A FLAGS=(
     ["--nvim"]="NVIM"
     ["--tmux"]="TMUX"
     ["--zsh"]="ZSH"
+    ["--wg"]="WG"
 )
 
 
@@ -34,12 +36,13 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--nvim"]="copy nvim config"
     ["--tmux"]="copy and reload tmux config"
     ["--zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
+    ["--wg"]="install wireguard and configure it"
 )
 
 
 # Check for help or no parameters
 if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]]; then
-    print_help "$0" FLAGS FLAG_DESCRIPTIONS
+    print_help "$0" "Apply dotfile configurations to your system with optional component selection and service management" FLAGS FLAG_DESCRIPTIONS
     exit 0
 fi
 

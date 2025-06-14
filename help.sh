@@ -1,12 +1,15 @@
 #!/bin/bash
 
 # Help utility function for displaying command usage
-# Usage: print_help SCRIPT_NAME FLAGS FLAG_DESCRIPTIONS
+# Usage: print_help SCRIPT_NAME MAIN_DESCRIPTION FLAGS FLAG_DESCRIPTIONS
 print_help() {
     local script_name="$1"
-    local -n flags_ref=$2
-    local -n descriptions_ref=$3
+    local main_description="$2"
+    local -n flags_ref=$3
+    local -n descriptions_ref=$4
     
+    echo "$main_description"
+    echo
     echo "Usage: $script_name [OPTIONS]"
     echo
     echo "Options:"

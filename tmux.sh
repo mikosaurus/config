@@ -45,7 +45,7 @@ declare -A FLAG_DESCRIPTIONS=(
 
 # Check for help
 if [[ " $* " == *" --help "* ]]; then
-    print_help "$0" FLAGS FLAG_DESCRIPTIONS
+    print_help "$0" "Copy and reload tmux config" FLAGS FLAG_DESCRIPTIONS
     exit 0
 fi
 
