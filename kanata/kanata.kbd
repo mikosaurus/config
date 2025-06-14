@@ -26,7 +26,6 @@
 )
 
 (defalias
-  ;; shifted german keys
   slask	S-7
   _ S--
   $ RA-4
@@ -36,7 +35,6 @@
   < <   ;; not really needed but having @< and @> looks consistent
   ` (macro S-\ spc)
   ;; change dead keys in normal keys
-;;  ^ S-¨    ;; ^ = \ - shifting @^ will produce an incorrect space now
   ^ (macro S-¨ spc)    ;; ^ = \ - shifting @^ will produce an incorrect space now
   ~ (macro RA-¨ spc)
   
@@ -101,13 +99,6 @@
     z  x  c  v  b  n  m  ,  .  -
                spc 
 )
-
-;; (defchordsv2
-;;  (w e) esc 50 all-released (extend)
-;;  (i o) bspc 50 all-released (extend)
-;;  (s d) tab 50 all-released (extend)
-;;  (k l) ret 50 all-released (extend)
-;; )
 
 (deftemplate charmod (char mod)
   (switch 
