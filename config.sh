@@ -6,6 +6,7 @@ source "$(dirname "$0")/lib/help.sh"
 source "$(dirname "$0")/lib/nvim.sh"
 source "$(dirname "$0")/lib/tmux.sh"
 source "$(dirname "$0")/lib/kanata.sh"
+source "$(dirname "$0")/lib/zsh.sh"
 source "$(dirname "$0")/lib/hyprland.sh"
 
 

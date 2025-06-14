@@ -61,9 +61,8 @@ zsh_conf() {
     # oh my zsh
     # ~/.oh-my-zsh/custom
     zshconf=~/.oh-my-zsh
-    if ! command -v zsh >/dev/null 2>&1; then
+    if command -v zsh >/dev/null 2>&1; then
         if test -d "$zshconf"; then
-            # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
             cp oh-my-zsh/* $zshconf/custom/
         else 
             if command -v curl >/dev/null 2>&1; then
@@ -71,17 +70,9 @@ zsh_conf() {
                 read -p "Would you like to install oh-my-zsh? (y/n): " -n 1 -r
                 echo
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    echo "Installing zsh..."
-                    # Add installation command based on OS
-                    if command -v apt-get >/dev/null 2>&1; then
-                        sudo apt-get update && sudo apt-get install -y zsh
-                    elif command -v yum >/dev/null 2>&1; then
-                        sudo yum install -y zsh
-                    elif command -v pacman >/dev/null 2>&1; then
-                        sudo pacman -S --noconfirm zsh
-                    elif command -v brew >/dev/null 2>&1; then
-                        brew install zsh
-                    fi
+                    echo "Installing oh my zsh..."
+                    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+                    cp oh-my-zsh/* $zshconf/custom/
                 else
                     echo "Skipping oh-my-zsh installation"
                 fi
