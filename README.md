@@ -34,6 +34,9 @@ Personal dotfiles configuration repository for XDG_CONFIG_HOME, containing confi
 # Apply configurations
 # Use flags form nvim, tmux and kanata
 ./apply.sh --nvim --tmux --reload-kanata
+
+# Print a help message 
+./apply.sh --help
 ```
 
 ### Individual Component Setup
