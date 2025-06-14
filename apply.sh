@@ -1,24 +1,41 @@
 #!/bin/bash
 
-# params
-# --dry-run - this will not actually do anything, just pretend :D
-# --reload-kanata - with this flag, kanata config will be copied and kanata will be restarted
-
+# Configuration variables
 DRY_RUN=false
 RELOAD_KANATA=false
 ENABLE_KANATA_SERVICE=false
 DISABLE_KANATA_SERVICE=false
 
+# Flag definitions
+declare -A FLAGS=(
+    ["--dry-run"]="DRY_RUN"
+    ["--reload-kanata"]="RELOAD_KANATA"
+    ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
+    ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
+)
+
+echo "${FLAGS[--dry-run]}"
+
+# Flag descriptions for help
+declare -A FLAG_DESCRIPTIONS=(
+    ["--dry-run"]="this will not actually do anything, just pretend :D"
+    ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
+    ["--enable-kanata"]="enable kanata systemd service"
+    ["--disable-kanata"]="disable kanata systemd service"
+)
+
+# Parse command line arguments
 for var in "$@"
 do
-    if [ "$var" =  '--dry-run' ]; then
-        DRY_RUN=true
-    elif [ "$var" = "--reload-kanata" ]; then
-        RELOAD_KANATA=true 
-    elif [ "$var" = "--enable-kanata" ]; then
-        ENABLE_KANATA_SERVICE=true 
-    elif [ "$var" = "--disable-kanata" ]; then
-        DISABLE_KANATA_SERVICE=true 
+    if [[ -n "${FLAGS[$var]}" ]]; then
+        declare "${FLAGS[$var]}"=true
+    else
+        echo "Unknown flag: $var"
+        echo "Available flags:"
+        for flag in "${!FLAG_DESCRIPTIONS[@]}"; do
+            echo "  $flag - ${FLAG_DESCRIPTIONS[$flag]}"
+        done
+        exit 1
     fi
 done
 
