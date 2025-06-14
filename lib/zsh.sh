@@ -61,7 +61,7 @@ zsh_conf() {
     # oh my zsh
     # ~/.oh-my-zsh/custom
     zshconf=~/.oh-my-zsh
-    if ! command -v zsh >/dev/null 2>&1; then
+    if command -v zsh >/dev/null 2>&1; then
         if test -d "$zshconf"; then
             cp oh-my-zsh/* $zshconf/custom/
         else 
