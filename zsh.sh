@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Source utilities
+source "$(dirname "$0")/parse_params.sh"
+source "$(dirname "$0")/help.sh"
+
 # Configuration variables
 DRY_RUN=false
 
@@ -12,6 +16,12 @@ declare -A FLAGS=(
 declare -A FLAG_DESCRIPTIONS=(
     ["--dry-run"]="this will not actually do anything, just pretend :D"
 )
+
+# Check for help
+if [[ " $* " == *" --help "* ]]; then
+    print_help "$0" FLAGS FLAG_DESCRIPTIONS
+    exit 0
+fi
 
 # Parse command line arguments
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS

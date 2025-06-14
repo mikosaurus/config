@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Source utilities
+source "$(dirname "$0")/parse_params.sh"
+source "$(dirname "$0")/help.sh"
+
 # Configuration variables
 DRY_RUN=false
 RELOAD_KANATA=false
@@ -31,6 +35,13 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--tmux"]="copy and reload tmux config"
     ["--zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
 )
+
+
+# Check for help or no parameters
+if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]]; then
+    print_help "$0" FLAGS FLAG_DESCRIPTIONS
+    exit 0
+fi
 
 # Parse command line arguments
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS

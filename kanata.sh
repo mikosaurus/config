@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Source utilities
+source "$(dirname "$0")/parse_params.sh"
+source "$(dirname "$0")/help.sh"
+
+
 RELOAD_KANATA=false
 ENABLE_KANATA_SERVICE=false
 DISABLE_KANATA_SERVICE=false
@@ -20,6 +25,12 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--disable-kanata"]="disable kanata systemd service"
 )
 
+# Check for help or no parameters
+if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]]; then
+    print_help "$0" FLAGS FLAG_DESCRIPTIONS
+    exit 0
+fi
+
 # Parse command line arguments
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 
@@ -27,7 +38,7 @@ parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 if ! command -v kanata >/dev/null 2>&1; then
     echo "kanata not available, install it before retrying kanata at:"
     echo "https://github.com/jtroo/kanata/releases"
-    exit(0)
+    exit 0
 fi
 
 if [ "$RELOAD_KANATA" = true ]; then 
