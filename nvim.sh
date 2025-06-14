@@ -19,10 +19,6 @@ declare -A FLAG_DESCRIPTIONS=(
 # Parse command line arguments
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 
-echo "dry run is: $DRY_RUN"
-exit 0
-
-
 if [ -z "${XDG_CONFIG_HOME}" ]; then
     echo "missing XDG_CONFIG_HOME, defauting to ~/.config"
     CONFIG_HOME=~/.config
