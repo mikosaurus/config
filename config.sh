@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Source utilities
-source "$(dirname "$0")/parse_params.sh"
-source "$(dirname "$0")/help.sh"
+source "$(dirname "$0")/lib/parse_params.sh"
+source "$(dirname "$0")/lib/help.sh"
 
 # Configuration variables
 DRY_RUN=false
@@ -62,27 +62,27 @@ fi
 # nvim section
 if [ "$NVIM" = true ]; then 
     if [ "$DRY_RUN" = true ] ; then
-        ./nvim.sh --dry-run 
+        ./lib/nvim.sh --dry-run 
     else
-        ./nvim.sh
+        ./lib/nvim.sh
     fi 
 fi 
 
 # tmux
 if [ "$TMUX" = true ]; then 
     if [ "$DRY_RUN" = true ] ; then
-        ./tmux.sh --dry-run 
+        ./lib/tmux.sh --dry-run 
     else
-        ./tmux.sh
+        ./lib/tmux.sh
     fi
 fi
 
 # zsh
 if [ "ZSH" = true ]; then
     if [ "DRY_RUN" = true ]; then
-        ./zsh.sh --dry-run
+        ./lib/zsh.sh --dry-run
     else
-        ./zsh.sh
+        ./lib/zsh.sh
     fi
     # Check if zsh is installed
     if ! command -v zsh >/dev/null 2>&1; then
@@ -110,12 +110,12 @@ if [ "ZSH" = true ]; then
 
     # Check if oh my zsh is installed
     # oh my zsh
-    # ~/.oh-my-zsh/custom
-    zshconf=~/.oh-my-zsh
+    # ./lib/.oh-my-.sh/custom
+    zshconf=./lib/.oh-my-.sh
     if ! command -v zsh >/dev/null 2>&1; then
         if test -d "$zshconf"; then
-            # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-            cp oh-my-zsh/* $zshconf/custom/
+            # sh -c "$(curl -fsSL https./lib//raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+            cp oh-my-zs./lib/* $.shconf/custom/
         else 
             if command -v curl >/dev/null 2>&1; then
                 echo "oh my zsh is not installed."
@@ -159,5 +159,5 @@ if [ "$DISABLE_KANATA_SERVICE" = true ]; then
 fi
 
 if [ ${#KANATA_FLAGS[@]} -gt 0 ]; then
-    ./kanata.sh "${KANATA_FLAGS[@]}"
+    ./lib/kanata.sh "${KANATA_FLAGS[@]}"
 fi 
