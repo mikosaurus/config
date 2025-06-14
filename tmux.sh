@@ -3,6 +3,31 @@
 # Configuration variables
 DRY_RUN=false
 
+# Check if tmux is installed
+if ! command -v tmux &> /dev/null; then
+    echo "Tmux is not installed."
+    read -p "Would you like to install it? (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Installing tmux..."
+        if command -v apt &> /dev/null; then
+            sudo apt update && sudo apt install -y tmux
+        elif command -v pacman &> /dev/null; then
+            sudo pacman -S tmux
+        elif command -v dnf &> /dev/null; then
+            sudo dnf install -y tmux
+        elif command -v brew &> /dev/null; then
+            brew install tmux
+        else
+            echo "Could not detect package manager. Please install tmux manually."
+            exit 1
+        fi
+    else
+        echo "Skipping tmux installation."
+        exit 0
+    fi
+fi
+
 # Flag definitions
 declare -A FLAGS=(
     ["--dry-run"]="DRY_RUN"
@@ -22,7 +47,8 @@ else
     CONFIG_HOME=${XDG_CONFIG_HOME}
 fi
 
-if [ "$DRY_RUN" = true ] ; then
+if [ "$DRY_RUN" = false ] ; then
+    mkdir -p "$CONFIG_HOME"
     cp -r ./tmux $CONFIG_HOME
     tmux source-file $CONFIG_HOME/tmux/tmux.conf
 else
