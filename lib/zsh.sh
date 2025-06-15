@@ -82,3 +82,4 @@ zsh_conf() {
         fi
     fi
 }
+

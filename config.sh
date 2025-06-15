@@ -20,9 +20,11 @@ TMUX_CONF=false
 ZSH=false
 WG=false
 HYPRLAND=false
+ALL=false
 
 # Flag definitions
 declare -A FLAGS=(
+    ["all"]="ALL"
     ["nvim"]="NVIM"
     ["tmux"]="TMUX_CONF"
     ["zsh"]="ZSH"
@@ -37,6 +39,7 @@ declare -A FLAGS=(
 
 # Flag descriptions for help
 declare -A FLAG_DESCRIPTIONS=(
+    ["all"]="copy all configs"
     ["nvim"]="copy nvim config"
     ["tmux"]="copy and reload tmux config"
     ["zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
@@ -54,9 +57,19 @@ if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]] || [[ " $* " == *" help "* ]]; t
     exit 0
 fi
 
+
 # Parse command line arguments
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 
+# Check if "all" is set
+if [ !"$ALL" = true ]; then
+    ALL=true
+    NVIM=true
+    TMUX_CONF=true
+    ZSH=true
+    WG=true
+    HYPRLAND=true
+fi
 
 if [ "$DRY_RUN" = true ]; then
     echo "Dry run mode enabled. No changes will be made."
@@ -97,20 +110,26 @@ fi
 
 # kanata section
 KANATA_FLAGS=()
+KANATA_FLAG_COUNT=0
 if [ "$DRY_RUN" = true ]; then
     KANATA_FLAGS+=("--dry-run")
 fi
 if [ "$RELOAD_KANATA" = true ]; then
     KANATA_FLAGS+=("--reload-kanata")
+    KANATA_FLAG_COUNT=0
+    # Add some padding
+    KANATA_FLAG_COUNT=$((KANATA_FLAG_COUNT + 1))
 fi
 if [ "$ENABLE_KANATA_SERVICE" = true ]; then
     KANATA_FLAGS+=("--enable-kanata")
+    KANATA_FLAG_COUNT=$((KANATA_FLAG_COUNT + 1))
 fi
 if [ "$DISABLE_KANATA_SERVICE" = true ]; then
     KANATA_FLAGS+=("--disable-kanata")
+    KANATA_FLAG_COUNT=$((KANATA_FLAG_COUNT + 1))
 fi
 
-if [ ${#KANATA_FLAGS[@]} -gt 0 ]; then
+if [ ${KANATA_FLAG_COUNT} -gt 0 ]; then
     kanata_conf "${KANATA_FLAGS[@]}"
 fi
 
