@@ -62,7 +62,7 @@ fi
 parse_params "$@" FLAGS FLAG_DESCRIPTIONS
 
 # Check if "all" is set
-if [ !"$ALL" = true ]; then
+if [ "$ALL" = true ]; then
     ALL=true
     NVIM=true
     TMUX_CONF=true
