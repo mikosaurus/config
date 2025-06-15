@@ -8,6 +8,7 @@ source "$(dirname "$0")/lib/tmux.sh"
 source "$(dirname "$0")/lib/kanata.sh"
 source "$(dirname "$0")/lib/zsh.sh"
 source "$(dirname "$0")/lib/hyprland.sh"
+source "$(dirname "$0")/lib/packages.sh"
 
 
 # Configuration variables
@@ -20,6 +21,7 @@ TMUX_CONF=false
 ZSH=false
 WG=false
 HYPRLAND=false
+PKG=false
 ALL=false
 
 # Flag definitions
@@ -30,6 +32,7 @@ declare -A FLAGS=(
     ["zsh"]="ZSH"
     ["wg"]="WG"
     ["hyprland"]="HYPRLAND"
+    ["pkg"]="PKG"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -45,6 +48,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
     ["wg"]="install wireguard and configure it"
     ["hyprland"]="copy hyprland config to ~/.config/hypr (only if hyprctl is available)"
+    ["pkg"]="install development packages"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -58,8 +62,36 @@ if [ $# -eq 0 ] || [[ " $* " == *" --help "* ]] || [[ " $* " == *" help "* ]]; t
 fi
 
 
-# Parse command line arguments
-parse_params "$@" FLAGS FLAG_DESCRIPTIONS
+# Parse command line arguments and collect package arguments
+PKG_ARGS=()
+FILTERED_ARGS=()
+ARGS=("$@")
+i=0
+skip_next=0
+
+while [ $i -lt ${#ARGS[@]} ]; do
+    if [ $skip_next -gt 0 ]; then
+        skip_next=$((skip_next - 1))
+        i=$((i + 1))
+        continue
+    fi
+    
+    if [[ "${ARGS[$i]}" == "pkg" && $((i + 1)) < ${#ARGS[@]} ]]; then
+        # Found pkg flag, collect following non-flag arguments
+        FILTERED_ARGS+=("${ARGS[$i]}")  # Keep the pkg flag
+        j=$((i + 1))
+        while [ $j -lt ${#ARGS[@]} ] && [[ ! "${FLAGS[${ARGS[$j]}]}" ]] && [[ ! "${ARGS[$j]}" == --* ]]; do
+            PKG_ARGS+=("${ARGS[$j]}")
+            skip_next=$((skip_next + 1))
+            j=$((j + 1))
+        done
+    else
+        FILTERED_ARGS+=("${ARGS[$i]}")
+    fi
+    i=$((i + 1))
+done
+
+parse_params "${FILTERED_ARGS[@]}" FLAGS FLAG_DESCRIPTIONS
 
 # Check if "all" is set
 if [ "$ALL" = true ]; then
@@ -69,6 +101,7 @@ if [ "$ALL" = true ]; then
     ZSH=true
     WG=true
     HYPRLAND=true
+    PACKAGES=true
 fi
 
 if [ "$DRY_RUN" = true ]; then
@@ -139,5 +172,14 @@ if [ "$HYPRLAND" = true ]; then
         hyprland_conf --dry-run 
     else
         hyprland_conf
+    fi 
+fi
+
+# packages
+if [ "$PKG" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        packages_conf --dry-run "${PKG_ARGS[@]}"
+    else
+        packages_conf "${PKG_ARGS[@]}"
     fi 
 fi 
