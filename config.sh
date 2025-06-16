@@ -24,6 +24,7 @@ WG=false
 HYPRLAND=false
 PKG=false
 WEZTERM=false
+WEZTERM_TYPES=false
 ALL=false
 
 # Flag definitions
@@ -40,6 +41,7 @@ declare -A FLAGS=(
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
     ["--dry-run"]="DRY_RUN"
+    ["--wezterm-types"]="WEZTERM_TYPES"
 )
 
 
@@ -57,6 +59,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
     ["--dry-run"]="this will not actually do anything, just pretend :D"
+    ["--wezterm-types"]="install or update wezterm deveoper types"
 )
 
 # Check for help or no parameters
@@ -191,9 +194,8 @@ fi
 
 # wezterm
 if [ "$WEZTERM" = true ]; then 
-    if [ "$DRY_RUN" = true ] ; then
-        wezterm_conf --dry-run
-    else
-        wezterm_conf
-    fi 
+    WEZTERM_ARGS=""
+    [ "$DRY_RUN" = true ] && WEZTERM_ARGS="--dry-run"
+    [ "$WEZTERM_TYPES" = true ] && WEZTERM_ARGS="$WEZTERM_ARGS --wezterm-types"
+    wezterm_conf $WEZTERM_ARGS
 fi 

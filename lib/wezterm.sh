@@ -7,15 +7,18 @@ wezterm_conf() {
 
     # Configuration variables
     DRY_RUN=false
+    WEZTERM_TYPES=false
 
     # Flag definitions
     declare -A FLAGS=(
         ["--dry-run"]="DRY_RUN"
+        ["--wezterm-types"]="WEZTERM_TYPES"
     )
 
     # Flag descriptions for help
     declare -A FLAG_DESCRIPTIONS=(
         ["--dry-run"]="this will not actually do anything, just pretend :D"
+        ["--wezterm-types"]="install or update wezterm deveoper types"
     )
 
     # Check for help
@@ -82,5 +85,37 @@ wezterm_conf() {
         fi
     fi
 
+    # wezterm
+    if [ "$WEZTERM_TYPES" = true ]; then 
+        # Check if wezterm is installed
+        if command -v wezterm >/dev/null 2>&1; then
+            if [ -z "${XDG_CONFIG_HOME}" ]; then
+                CONFIG_HOME=~/.config
+            else
+                CONFIG_HOME=${XDG_CONFIG_HOME}
+            fi
+
+            if [ "$DRY_RUN" = false ]; then 
+                mkdir -p "$CONFIG_HOME"
+                cp -r ./wezterm $CONFIG_HOME
+                echo "Copying wezterm config to $CONFIG_HOME/wezterm"
+
+                if ! test -d "$HOME/.local/share/nvim/types/wezterm-types"; then
+                    echo "Adding lua lsp types for wezterm"
+                    mkdir -p ~/.local/share/nvim/types
+                    git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
+                else
+                    echo "Updating types with git pull"
+                    git -C ~/.local/share/nvim/types/wezterm-types pull
+                fi
+            else
+                if ! test -d "$HOME/.local/share/nvim/types/wezterm-types"; then
+                    echo "Adding lua lsp types for wezterm"
+                else
+                    echo "Updating types with git pull"
+                fi
+            fi
+        fi
+    fi 
 }
 
