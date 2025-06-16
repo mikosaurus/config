@@ -106,6 +106,7 @@ if [ "$ALL" = true ]; then
     WG=true
     HYPRLAND=true
     PACKAGES=true
+    WEZTERM=true
 fi
 
 if [ "$DRY_RUN" = true ]; then
