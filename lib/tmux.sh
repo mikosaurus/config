@@ -61,8 +61,7 @@ tmux_conf() {
 
     if [ "$DRY_RUN" = false ] ; then
         mkdir -p "$CONFIG_HOME"
-        ls ./tmux
-        cp -r ./tmux $CONFIG_HOME
+        cp -r $ROOT_DIR/tmux $CONFIG_HOME
         # Only reload config if tmux is running
         if [[ "$TMUX" == *"/tmp/tmux"* ]] || tmux list-sessions &>/dev/null; then
             tmux source-file $CONFIG_HOME/tmux/tmux.conf

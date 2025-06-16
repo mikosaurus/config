@@ -36,8 +36,8 @@ hyprland_conf() {
     mkdir -p "$hypr_config_dir"
     
     # Copy hyprland config files if they exist
-    if [ -d "$(dirname "$0")/hyprland" ]; then
-        cp -r "$(dirname "$0")/hyprland/"* "$hypr_config_dir/"
+    if [ -d "$ROOT_DIR/hyprland" ]; then
+        cp -r "$ROOT_DIR/hyprland/"* "$hypr_config_dir/"
         echo "Hyprland config copied to $hypr_config_dir"
     else
         echo "No hyprland config directory found to copy"

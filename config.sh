@@ -11,6 +11,7 @@ source "$(dirname "$0")/lib/hyprland.sh"
 source "$(dirname "$0")/lib/packages.sh"
 source "$(dirname "$0")/lib/wezterm.sh"
 source "$(dirname "$0")/lib/assets.sh"
+export ROOT_DIR=$(dirname "$(realpath "$0")")
 
 
 # Configuration variables

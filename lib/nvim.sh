@@ -60,7 +60,7 @@ nvim_conf() {
 
     if [ "$DRY_RUN" = false ]; then 
         mkdir -p "$CONFIG_HOME"
-        cp -r ./nvim $CONFIG_HOME
+        cp -r $ROOT_DIR/nvim $CONFIG_HOME
         echo "Copying nvim config to $CONFIG_HOME/nvim"
     else
         echo "Copying nvim config to $CONFIG_HOME/nvim"
