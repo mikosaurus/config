@@ -14,16 +14,18 @@ config.initial_rows = 28
 
 -- or, changing the font size and color scheme.
 config.font_size = 10
-config.color_scheme = "Catppuccin Macchiato"
+config.color_scheme = "Catppuccin Mocha"
+
+local superReload = wezterm.action_callback(function()
+	wezterm.plugin.update_all()
+	wezterm.action.ReloadConfiguration()
+end)
 
 config.keys = {
 	{
 		key = "r",
 		mods = "CTRL|SHIFT",
-		action = function()
-			wezterm.plugin.update_all()
-			wezterm.action.ReloadConfiguration()
-		end,
+		action = superReload,
 	},
 }
 
