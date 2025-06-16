@@ -20,7 +20,10 @@ config.keys = {
 	{
 		key = "r",
 		mods = "CTRL|SHIFT",
-		action = wezterm.action.ReloadConfiguration,
+		action = function()
+			wezterm.plugin.update_all()
+			wezterm.action.ReloadConfiguration()
+		end,
 	},
 }
 
