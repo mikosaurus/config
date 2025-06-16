@@ -64,6 +64,8 @@ zsh_conf() {
     if command -v zsh >/dev/null 2>&1; then
         if test -d "$zshconf"; then
             cp oh-my-zsh/* $zshconf/custom/
+            source ~/.zshrc
+            echo "Sourcing .zshrc for this terminal, other tabs or terminals needs to be sourced or restarted separately" 
         else 
             if command -v curl >/dev/null 2>&1; then
                 echo "oh my zsh is not installed."
@@ -73,6 +75,8 @@ zsh_conf() {
                     echo "Installing oh my zsh..."
                     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
                     cp oh-my-zsh/* $zshconf/custom/
+                    source ~/.zshrc
+                    echo "Sourcing .zshrc for this terminal, other tabs or terminals needs to be sourced or restarted separately" 
                 else
                     echo "Skipping oh-my-zsh installation"
                 fi
