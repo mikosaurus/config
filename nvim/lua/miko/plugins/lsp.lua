@@ -104,6 +104,12 @@ return {
 										indent_size = "2",
 									},
 								},
+								workspace = {
+									library = {
+										vim.env.VIMRUNTIME,
+										vim.fn.expand("~/.local/share/nvim/types/wezterm-types"),
+									},
+								},
 							},
 						},
 					})

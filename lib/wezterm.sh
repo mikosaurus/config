@@ -33,7 +33,11 @@ wezterm_conf() {
         CONFIG_HOME=${XDG_CONFIG_HOME}
     fi
 
+    # Check if wezterm is installed
     if ! command -v wezterm >/dev/null 2>&1; then
+        echo "Wezterm is not installed."
+        read -p "Would you like to install it? (y/N): " -n 1 -r
+        echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             if command -v apt >/dev/null 2>&1; then
                 curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
@@ -51,5 +55,27 @@ wezterm_conf() {
             exit 1
         fi
     fi
+
+    # Check if wezterm is installed
+    if ! command -v wezterm >/dev/null 2>&1; then
+        if [ -z "${XDG_CONFIG_HOME}" ]; then
+            CONFIG_HOME=~/.config
+        else
+            CONFIG_HOME=${XDG_CONFIG_HOME}
+        fi
+
+        if [ "$DRY_RUN" = false ]; then 
+            mkdir -p "$CONFIG_HOME"
+            cp -r ./wezterm $CONFIG_HOME
+            echo "Copying wezterm config to $CONFIG_HOME/wezterm"
+
+            echo "Adding lua lsp types for wezterm"
+            mkdir -p ~/.local/share/nvim/types
+            git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
+        else
+            echo "Copying wezterm config to $CONFIG_HOME/wezterm"
+        fi
+    fi
+
 }
 
