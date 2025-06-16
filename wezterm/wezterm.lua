@@ -15,10 +15,31 @@ config.initial_rows = 28
 -- or, changing the font size and color scheme.
 config.font_size = 10
 config.color_scheme = "Catppuccin Mocha"
+config.background = {
+	{
+		source = {
+			Color = "rgb(36, 39, 58)", -- Or your preferred color
+		},
+		height = "100%",
+		width = "100%",
+	},
+	{
+		source = {
+			File = wezterm.home_dir .. "/.local/share/mks-assets/assets/momiji.jpg",
+		},
+	},
+	{
+		source = {
+			Color = "rgba(36, 39, 58, 0.95)", -- Or your preferred color
+		},
+		height = "100%",
+		width = "100%",
+	},
+}
 
 local superReload = wezterm.action_callback(function()
 	wezterm.plugin.update_all()
-	wezterm.action.ReloadConfiguration()
+	wezterm.reload_configuration()
 end)
 
 config.keys = {
