@@ -22,6 +22,7 @@ ZSH=false
 WG=false
 HYPRLAND=false
 PKG=false
+WEZTERM=false
 ALL=false
 
 # Flag definitions
@@ -33,6 +34,7 @@ declare -A FLAGS=(
     ["wg"]="WG"
     ["hyprland"]="HYPRLAND"
     ["pkg"]="PKG"
+    ["wezterm"]="WEZTERM"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -49,6 +51,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["wg"]="install wireguard and configure it"
     ["hyprland"]="copy hyprland config to ~/.config/hypr (only if hyprctl is available)"
     ["pkg"]="install development packages"
+    ["wezterm"]="install and configure wezterm"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -181,5 +184,14 @@ if [ "$PKG" = true ]; then
         packages_conf --dry-run "${PKG_ARGS[@]}"
     else
         packages_conf "${PKG_ARGS[@]}"
+    fi 
+fi 
+
+# wezterm
+if [ "$WEZTERM" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        wezterm_conf --dry-run
+    else
+        wezterm_conf
     fi 
 fi 
