@@ -71,15 +71,6 @@ wezterm_conf() {
             mkdir -p "$CONFIG_HOME"
             cp -r ./wezterm $CONFIG_HOME
             echo "Copying wezterm config to $CONFIG_HOME/wezterm"
-
-            if ! test -d "$HOME/.local/share/nvim/types/wezterm-types"; then
-                echo "Adding lua lsp types for wezterm"
-                mkdir -p ~/.local/share/nvim/types
-                git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
-            else
-                echo "updating types with git pull"
-                git -C ~/.local/share/nvim/types/wezterm-types pull
-            fi
         else
             echo "Copying wezterm config to $CONFIG_HOME/wezterm"
         fi
@@ -96,17 +87,13 @@ wezterm_conf() {
             fi
 
             if [ "$DRY_RUN" = false ]; then 
-                mkdir -p "$CONFIG_HOME"
-                cp -r ./wezterm $CONFIG_HOME
-                echo "Copying wezterm config to $CONFIG_HOME/wezterm"
-
                 if ! test -d "$HOME/.local/share/nvim/types/wezterm-types"; then
                     echo "Adding lua lsp types for wezterm"
-                    mkdir -p ~/.local/share/nvim/types
-                    git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
+                    # mkdir -p ~/.local/share/nvim/types
+                    # git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
                 else
                     echo "Updating types with git pull"
-                    git -C ~/.local/share/nvim/types/wezterm-types pull
+                    # git -C ~/.local/share/nvim/types/wezterm-types pull
                 fi
             else
                 if ! test -d "$HOME/.local/share/nvim/types/wezterm-types"; then
