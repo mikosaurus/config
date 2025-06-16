@@ -9,6 +9,7 @@ source "$(dirname "$0")/lib/kanata.sh"
 source "$(dirname "$0")/lib/zsh.sh"
 source "$(dirname "$0")/lib/hyprland.sh"
 source "$(dirname "$0")/lib/packages.sh"
+source "$(dirname "$0")/lib/wezterm.sh"
 
 
 # Configuration variables

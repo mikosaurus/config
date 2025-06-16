@@ -57,7 +57,7 @@ wezterm_conf() {
     fi
 
     # Check if wezterm is installed
-    if ! command -v wezterm >/dev/null 2>&1; then
+    if command -v wezterm >/dev/null 2>&1; then
         if [ -z "${XDG_CONFIG_HOME}" ]; then
             CONFIG_HOME=~/.config
         else
@@ -69,9 +69,14 @@ wezterm_conf() {
             cp -r ./wezterm $CONFIG_HOME
             echo "Copying wezterm config to $CONFIG_HOME/wezterm"
 
-            echo "Adding lua lsp types for wezterm"
-            mkdir -p ~/.local/share/nvim/types
-            git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
+            if ! test -d "$HOME/.local/share/nvim/types/wezterm-types"; then
+                echo "Adding lua lsp types for wezterm"
+                mkdir -p ~/.local/share/nvim/types
+                git clone https://github.com/justinsgithub/wezterm-types ~/.local/share/nvim/types/wezterm-types
+            else
+                echo "updating types with git pull"
+                git -C ~/.local/share/nvim/types/wezterm-types pull
+            fi
         else
             echo "Copying wezterm config to $CONFIG_HOME/wezterm"
         fi
