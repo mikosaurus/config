@@ -120,9 +120,9 @@
   d (t! charmod d lsft)
   f (t! charmod f lctl)
 
-  j (t! charmod j rctl)
-  k (t! charmod k rsft)
-  l (t! charmod l ralt)
+  j (t! charmod j lctl)
+  k (t! charmod k lsft)
+  l (t! charmod l lalt)
   ø (t! charmod ø lmet)
 
   spc (t! charmod spc (multi (layer-switch nav) (on-release tap-virtualkey clear)))
