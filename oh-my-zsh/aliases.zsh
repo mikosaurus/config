@@ -24,6 +24,8 @@ alias kanata-service-enable="systemctl --user enable kanata.service"
 alias kanata-service-disable="systemctl --user disable kanata.service"
 alias kanata-service-reload="systemctl --user daemon-reload"
 
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+
 clip() {
     $1 | xclip -sel clip
 }
