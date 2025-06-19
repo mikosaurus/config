@@ -78,8 +78,8 @@ wezterm_conf() {
                 # Found a gitconfig. check the contents for insteadOf = https://github.com/mikosaurus
                 if command -v sed >/dev/null 2>&1; then
                     if grep -q "insteadOf = https://github.com/mikosaurus" $gitconf && ! grep -q "insteadOf = github/wezterm-sessionizer" $gitconf; then
-                        echo "[url \"https://github.com/mikosaurus/wezterm-sessionizer\"]" >> $gitconf
-                        echo "    insteadOf = github/wezterm-sessionizer" >> $gitconf
+                        sed -i $'1i\\\tinsteadOf = github/wezterm-sessionizer' $gitconf
+                        sed -i "1i\[url \"https://github.com/mikosaurus/wezterm-sessionizer\"]" $gitconf
                     fi
 
                     echo "Writing insteadOf to gitconfig and running sed to replace repo url"
