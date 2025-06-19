@@ -1,9 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 -- Use the https one normally. if i have a .gitconfig insteadof that replaces https with ssh
--- make one that takes "https://github.com/mikosaurus/wezterm-sessionizer".insteadof "github/wezterm-sessionizer"
 local my_plugin = wezterm.plugin.require("https://github.com/mikosaurus/wezterm-sessionizer")
--- local my_plugin = wezterm.plugin.require("github/wezterm-sessionizer")
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()

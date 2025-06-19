@@ -69,14 +69,26 @@ wezterm_conf() {
 
         if [ "$DRY_RUN" = false ]; then 
             mkdir -p "$CONFIG_HOME"
+            echo "Copying wezterm config to $CONFIG_HOME/wezterm"
             cp -r $ROOT_DIR/wezterm $CONFIG_HOME
 
             # Check if .gitconfig contains "git@github.com/mikosaurus" instead of https://github.com/mikosaurus
-            # if [ -f "~/.gitconfig"]; then
-            #     # Found a gitconfig. check the contents for insteadOf = https://github.com/mikosaurus
-            # fi
+            gitconf=$HOME/.gitconfig
+            if [ -f "$gitconf" ]; then
+                # Found a gitconfig. check the contents for insteadOf = https://github.com/mikosaurus
+                if command -v sed >/dev/null 2>&1; then
+                    if grep -q "insteadOf = https://github.com/mikosaurus" $gitconf && ! grep -q "insteadOf = github/wezterm-sessionizer" $gitconf; then
+                        echo "[url \"https://github.com/mikosaurus/wezterm-sessionizer\"]" >> $gitconf
+                        echo "    insteadOf = github/wezterm-sessionizer" >> $gitconf
+                    fi
 
-            echo "Copying wezterm config to $CONFIG_HOME/wezterm"
+                    echo "Writing insteadOf to gitconfig and running sed to replace repo url"
+                    sed -i "s/https:\/\/github.com\/mikosaurus\/wezterm-sessionizer/github\/wezterm-sessionizer/" $CONFIG_HOME/wezterm/wezterm.lua
+                else
+                    echo "sed not available, not automatically fixing wezterm ssh issue"
+                fi
+            fi
+
 
             ASSETS_HOME=~/.local/share/mks-assets/assets
             if ! test -d "$ASSETS_HOME"; then
