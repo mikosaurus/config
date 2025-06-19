@@ -28,6 +28,7 @@ PKG=false
 WEZTERM=false
 WEZTERM_TYPES=false
 ASSETS=false
+UPDATE=false
 ALL=false
 
 # Flag definitions
@@ -46,6 +47,7 @@ declare -A FLAGS=(
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
     ["--dry-run"]="DRY_RUN"
     ["--wezterm-types"]="WEZTERM_TYPES"
+    ["--update"]="UPDATE"
 )
 
 
@@ -65,6 +67,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--disable-kanata"]="disable kanata systemd service"
     ["--dry-run"]="this will not actually do anything, just pretend :D"
     ["--wezterm-types"]="install or update wezterm deveoper types"
+    ["--update"]="update packages that are supported here (nvim for apt)"
 )
 
 # Check for help or no parameters
@@ -129,11 +132,10 @@ fi
 
 # nvim section
 if [ "$NVIM" = true ]; then 
-    if [ "$DRY_RUN" = true ] ; then
-        nvim_conf --dry-run 
-    else
-        nvim_conf
-    fi 
+    NVIM_ARGS=""
+    [ "$DRY_RUN" = true ] && NVIM_ARGS="--dry-run"
+    [ "$UPDATE" = true ] && NVIM_ARGS="$NVIM_ARGS --update-nvim"
+    nvim_conf $NVIM_ARGS
 fi 
 
 # tmux

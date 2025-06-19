@@ -70,6 +70,12 @@ wezterm_conf() {
         if [ "$DRY_RUN" = false ]; then 
             mkdir -p "$CONFIG_HOME"
             cp -r $ROOT_DIR/wezterm $CONFIG_HOME
+
+            # Check if .gitconfig contains "git@github.com/mikosaurus" instead of https://github.com/mikosaurus
+            # if [ -f "~/.gitconfig"]; then
+            #     # Found a gitconfig. check the contents for insteadOf = https://github.com/mikosaurus
+            # fi
+
             echo "Copying wezterm config to $CONFIG_HOME/wezterm"
 
             ASSETS_HOME=~/.local/share/mks-assets/assets
