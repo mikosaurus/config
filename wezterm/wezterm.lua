@@ -2,8 +2,6 @@
 local wezterm = require("wezterm")
 local keys = require("keys")
 local wez_nvim = require("wezterm_nvim")
-local domains = require("domains")
-local workspaces = require("workspaces")
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
@@ -36,8 +34,7 @@ config.background = {
 	},
 }
 
-wez_nvim.nvim_conf()
-
+config.leader = { key = "Space", mods = "CTRL" }
 config.keys = keys.keys
 
 -- Finally, return the configuration to wezterm:

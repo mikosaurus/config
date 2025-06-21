@@ -1,12 +1,19 @@
 return {
-	"jonboh/wezterm-mux.nvim",
-	config = function()
-		-- adding stuff
-		local mux = require("wezterm-mux")
-		vim.keymap.set("n", "<C-h>", mux.wezterm_move_left)
-		vim.keymap.set("n", "<C-l>", mux.wezterm_move_right)
-		vim.keymap.set("n", "<C-j>", mux.wezterm_move_down)
-		vim.keymap.set("n", "<C-k>", mux.wezterm_move_up)
-		-- vim.keymap.set("n", "<A-x>", "<C-w>q") -- some actions dont need from a specific function
-	end,
+	"stevalkr/multiplexer.nvim",
+	lazy = false,
+	opts = {
+		on_init = function()
+			local multiplexer = require("multiplexer")
+
+			vim.keymap.set("n", "<C-h>", multiplexer.activate_pane_left, { desc = "Activate pane to the left" })
+			vim.keymap.set("n", "<C-j>", multiplexer.activate_pane_down, { desc = "Activate pane below" })
+			vim.keymap.set("n", "<C-k>", multiplexer.activate_pane_up, { desc = "Activate pane above" })
+			vim.keymap.set("n", "<C-l>", multiplexer.activate_pane_right, { desc = "Activate pane to the right" })
+
+			vim.keymap.set("n", "<C-S-h>", multiplexer.resize_pane_left, { desc = "Resize pane to the left" })
+			vim.keymap.set("n", "<C-S-j>", multiplexer.resize_pane_down, { desc = "Resize pane below" })
+			vim.keymap.set("n", "<C-S-k>", multiplexer.resize_pane_up, { desc = "Resize pane above" })
+			vim.keymap.set("n", "<C-S-l>", multiplexer.resize_pane_right, { desc = "Resize pane to the right" })
+		end,
+	},
 }

@@ -2,6 +2,7 @@ local wezterm = require("wezterm")
 local workspace = require("workspaces")
 local domains = require("domains")
 local ssh_domains = require("ssh_domains").ssh_domains
+local wez_nvim = require("wezterm_nvim")
 local act = wezterm.action
 
 local M = {}
@@ -56,14 +57,14 @@ M.keys = {
 	-- Splitting tab in panes
 	{
 		key = "æ",
-		mods = "ALT",
+		mods = "LEADER",
 		action = act.SplitPane({
 			direction = "Right",
 		}),
 	},
 	{
 		key = "'",
-		mods = "ALT",
+		mods = "LEADER",
 		action = act.SplitPane({
 			direction = "Down",
 		}),
@@ -141,6 +142,16 @@ M.keys = {
 		mods = "CTRL",
 		action = act.ActivatePaneDirection("Down"),
 	},
+
+	activate_pane({ key = "h", mods = "CTRL" }, "left"),
+	activate_pane({ key = "j", mods = "CTRL" }, "down"),
+	activate_pane({ key = "k", mods = "CTRL" }, "up"),
+	activate_pane({ key = "l", mods = "CTRL" }, "right"),
+
+	adjust_pane({ key = "h", mods = "CTRL|SHIFT" }, "left"),
+	adjust_pane({ key = "j", mods = "CTRL|SHIFT" }, "down"),
+	adjust_pane({ key = "k", mods = "CTRL|SHIFT" }, "up"),
+	adjust_pane({ key = "l", mods = "CTRL|SHIFT" }, "right"),
 }
 
 return M
