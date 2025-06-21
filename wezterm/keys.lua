@@ -1,5 +1,5 @@
 local wezterm = require("wezterm")
-local workspace = require("workspace")
+local workspace = require("workspaces")
 local domains = require("domains")
 local ssh_domains = require("ssh_domains").ssh_domains
 local act = wezterm.action
