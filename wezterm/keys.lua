@@ -63,6 +63,13 @@ M.keys = {
 		}),
 	},
 	{
+		key = "æ",
+		mods = "LEADER|CTRL",
+		action = act.SplitPane({
+			direction = "Right",
+		}),
+	},
+	{
 		key = "'",
 		mods = "LEADER",
 		action = act.SplitPane({
