@@ -1,21 +1,16 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
--- Use the https one normally. if i have a .gitconfig insteadof that replaces https with ssh
-local my_plugin = wezterm.plugin.require("https://github.com/mikosaurus/wezterm-sessionizer")
+local keys = require("keys")
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
-my_plugin.apply_to_config(config)
-
--- This is where you actually apply your config choices.
 
 -- For example, changing the initial geometry for new windows:
 config.initial_cols = 120
 config.initial_rows = 28
 
--- or, changing the font size and color scheme.
 config.font_size = 10
-config.color_scheme = "Catppuccin Mocha"
+-- config.color_scheme = "Catppuccin Mocha"
 config.background = {
 	{
 		source = {
@@ -78,21 +73,7 @@ wezterm.on("close-pane", function(window, pane)
 	wez_nvim_action(window, pane, act.CloseCurrentPane({ confirm = false }), act.SendKey({ key = "x", mods = "ALT" }))
 end)
 
-local superReload = wezterm.action_callback(function()
-	wezterm.plugin.update_all()
-	wezterm.reload_configuration()
-end)
-
--- add default empty table if keys is not set yet
-if not config.keys then
-	config.keys = {}
-end
-
-table.insert(config.keys, {
-	key = "r",
-	mods = "CTRL|SHIFT",
-	action = superReload,
-})
+config.keys = keys.keys
 
 -- Finally, return the configuration to wezterm:
 return config
