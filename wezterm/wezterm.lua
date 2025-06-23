@@ -35,7 +35,6 @@ config.background = {
 
 config.hide_tab_bar_if_only_one_tab = true
 
-config.leader = { key = "Space", mods = "CTRL" }
 config.keys = keys.keys
 
 -- Finally, return the configuration to wezterm:
