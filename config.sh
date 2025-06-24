@@ -11,6 +11,7 @@ source "$(dirname "$0")/lib/hyprland.sh"
 source "$(dirname "$0")/lib/packages.sh"
 source "$(dirname "$0")/lib/wezterm.sh"
 source "$(dirname "$0")/lib/assets.sh"
+source "$(dirname "$0")/lib/gitconfig.sh"
 export ROOT_DIR=$(dirname "$(realpath "$0")")
 
 
@@ -28,6 +29,7 @@ PKG=false
 WEZTERM=false
 WEZTERM_TYPES=false
 ASSETS=false
+GITCONFIG=false
 UPDATE=false
 ALL=false
 
@@ -42,6 +44,7 @@ declare -A FLAGS=(
     ["pkg"]="PKG"
     ["wezterm"]="WEZTERM"
     ["assets"]="ASSETS"
+    ["gitconfig"]="GITCONFIG"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -62,6 +65,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["pkg"]="install development packages"
     ["wezterm"]="install and configure wezterm"
     ["assets"]="download personal assets. will only work with ssh key available"
+    ["gitconfig"]="copy .gitconfig file to the home folder"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -207,11 +211,20 @@ if [ "$WEZTERM" = true ]; then
     wezterm_conf $WEZTERM_ARGS
 fi 
 
-# wezterm
+# assets
 if [ "$ASSETS" = true ]; then 
     if [ "$DRY_RUN" = true ] ; then
         assets_conf --dry-run
     else
         assets_conf 
+    fi
+fi 
+
+# gitconfig
+if [ "$GITCONFIG" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        git_conf --dry-run
+    else
+        git_conf 
     fi
 fi 

@@ -23,7 +23,7 @@ wezterm_conf() {
 
     # Check for help
     if [[ " $* " == *" --help "* ]]; then
-        print_help "$0" "Copy zsh config, need to restart or open a new zsh for it to take effect" FLAGS FLAG_DESCRIPTIONS
+        print_help "$0" "Copy wezterm config" FLAGS FLAG_DESCRIPTIONS
         exit 0
     fi
 

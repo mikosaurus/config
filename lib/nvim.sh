@@ -32,29 +32,31 @@ nvim_conf() {
 
 
     # Check if neovim is installed
-    if ! command -v nvim &> /dev/null; then
-        echo "Neovim is not installed."
-        read -p "Would you like to install it? (y/N): " -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            echo "Installing neovim..."
-            if command -v apt &> /dev/null; then
-                curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-                sudo rm -rf /opt/nvim
-                sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
-            elif command -v pacman &> /dev/null; then
-                sudo pacman -S neovim
-            elif command -v dnf &> /dev/null; then
-                sudo dnf install -y neovim
-            elif command -v brew &> /dev/null; then
-                brew install neovim
+    if [ "$DRY_RUN" = false ]; then 
+        if ! command -v nvim &> /dev/null; then
+            echo "Neovim is not installed."
+            read -p "Would you like to install it? (y/N): " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                echo "Installing neovim..."
+                if command -v apt &> /dev/null; then
+                    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+                    sudo rm -rf /opt/nvim
+                    sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+                elif command -v pacman &> /dev/null; then
+                    sudo pacman -S neovim
+                elif command -v dnf &> /dev/null; then
+                    sudo dnf install -y neovim
+                elif command -v brew &> /dev/null; then
+                    brew install neovim
+                else
+                    echo "Could not detect package manager. Please install neovim manually."
+                    exit 1
+                fi
             else
-                echo "Could not detect package manager. Please install neovim manually."
-                exit 1
+                echo "Skipping neovim installation."
+                exit 0
             fi
-        else
-            echo "Skipping neovim installation."
-            exit 0
         fi
     fi
 
