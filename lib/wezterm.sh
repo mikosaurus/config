@@ -72,24 +72,6 @@ wezterm_conf() {
             echo "Copying wezterm config to $CONFIG_HOME/wezterm"
             cp -r $ROOT_DIR/wezterm $CONFIG_HOME
 
-            # Check if .gitconfig contains "git@github.com/mikosaurus" instead of https://github.com/mikosaurus
-            gitconf=$HOME/.gitconfig
-            if [ -f "$gitconf" ]; then
-                # Found a gitconfig. check the contents for insteadOf = https://github.com/mikosaurus
-                if command -v sed >/dev/null 2>&1; then
-                    if grep -q "insteadOf = https://github.com/mikosaurus" $gitconf && ! grep -q "insteadOf = github/wezterm-sessionizer" $gitconf; then
-                        sed -i $'1i\\\tinsteadOf = github/wezterm-sessionizer' $gitconf
-                        sed -i "1i\[url \"https://github.com/mikosaurus/wezterm-sessionizer\"]" $gitconf
-                    fi
-
-                    echo "Writing insteadOf to gitconfig and running sed to replace repo url"
-                    sed -i "s/https:\/\/github.com\/mikosaurus\/wezterm-sessionizer/github\/wezterm-sessionizer/" $CONFIG_HOME/wezterm/wezterm.lua
-                else
-                    echo "sed not available, not automatically fixing wezterm ssh issue"
-                fi
-            fi
-
-
             ASSETS_HOME=~/.local/share/mks-assets/assets
             if ! test -d "$ASSETS_HOME"; then
                 echo "!!! Note that assets are not available. run config.sh assets to fetch !!!"

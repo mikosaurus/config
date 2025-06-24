@@ -1,0 +1,6 @@
+[user]
+        name = Anders Johannessen
+        email = slatleim1991@gmail.com
+[url "git@github.com:mikosaurus"]
+        insteadOf = https://github.com/mikosaurus
+
