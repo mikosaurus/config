@@ -10,6 +10,8 @@ return {
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				vue = { "prettier" },
+				yaml = { "yamlfmt" },
+				YAML = { "yamlfmt" },
 			},
 		})
 		vim.api.nvim_create_autocmd("BufWritePre", {
