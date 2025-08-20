@@ -62,13 +62,14 @@ return {
 				"gopls",
 				"eslint",
 				"jdtls",
+				"ts_ls",
 				"vue_ls",
 			},
 			handlers = {
 				function(server_name)
-					if server_name ~= "jdtls" and "volar" then
+					if server_name ~= "jdtls" then
+						local lspconfig = require("lspconfig")
 						lspconfig[server_name].setup({
-							on_attach = lsp_attach,
 							capabilities = capabilities,
 						})
 					end
@@ -124,6 +125,7 @@ return {
 				"stylua",
 				"google-java-format",
 				"prettier",
+				"vue-language-server",
 			},
 		})
 
@@ -198,15 +200,34 @@ return {
 			},
 		})
 
-		vim.lsp.config("vue_ls", {
-			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		-- Configure TypeScript Language Server with Vue plugin
+		local lspconfig = require("lspconfig")
+		local vue_language_server_path = vim.fn.stdpath("data")
+			.. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+		lspconfig.ts_ls.setup({
+			capabilities = capabilities,
 			init_options = {
-				vue = {
-					hybridMode = false,
+				plugins = {
+					{
+						name = "@vue/typescript-plugin",
+						location = vue_language_server_path,
+						languages = { "vue" },
+					},
 				},
 			},
-			on_attach = function() end,
-			root_markers = { "package.json", "vite.config.ts" },
+			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		})
+
+		-- Configure Vue Language Server (Volar) in hybrid mode
+		lspconfig.vtsls.setup({
+			capabilities = capabilities,
+			filetypes = { "vue" },
+			init_options = {
+				vue = {
+					hybridMode = true,
+				},
+			},
 		})
 	end,
 }
