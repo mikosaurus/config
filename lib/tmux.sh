@@ -15,6 +15,8 @@ tmux_conf() {
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "Installing tmux..."
+            echo "Install tmp..."
+            git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
             if command -v apt &> /dev/null; then
                 sudo apt update && sudo apt install -y tmux
             elif command -v pacman &> /dev/null; then

@@ -44,7 +44,7 @@ kanata_conf() {
 
     if [ "$RELOAD_KANATA" = true ]; then 
         if [ "$DRY_RUN" = false ]; then 
-            sudo cp $ROOT_DIR/kanata.kbd /usr/share/kanata/kanata.kbd
+            sudo cp $ROOT_DIR/kanata/kanata.kbd /usr/share/kanata/kanata.kbd
             # Check if systemd is available
             if command -v systemctl >/dev/null 2>&1; then
                 cp $ROOT_DIR/kanata/kanata.service $CONFIG_HOME/systemd/user/kanata.service
