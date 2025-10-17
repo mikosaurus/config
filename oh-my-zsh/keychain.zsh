@@ -3,7 +3,7 @@
 if [ -d ~/.ssh ]; then
     SSH_KEYS=($(find ~/.ssh -name "*.pub" -exec basename {} .pub \;))
     for key in ${SSH_KEYS[@]}; do
-        eval `keychain --eval --agents ssh "$key"`
+        eval `keychain --eval "$key"`
     done
 fi
 
