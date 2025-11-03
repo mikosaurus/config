@@ -40,5 +40,12 @@ config.keys = keys.keys
 config.adjust_window_size_when_changing_font_size = false
 config.enable_wayland = false
 
+wezterm.on("gui-startup", function(cmd)
+	local mux = wezterm.mux
+	mux.spawn_window({ workspace = "mks" })
+	mux.spawn_window({ workspace = "work" })
+	mux.set_active_workspace("mks")
+end)
+
 -- Finally, return the configuration to wezterm:
 return config

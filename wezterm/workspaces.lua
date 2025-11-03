@@ -3,26 +3,6 @@ local act = wezterm.action
 
 local M = {}
 
-local home = os.getenv("HOME")
-
-M.workspaces = {
-	default_workspace = "mks",
-	repositories = {
-		{
-			type = "personal",
-			workspace = "mks",
-			name = "home",
-			path = home .. "/github.com/mikosaurus",
-		},
-		{
-			type = "work",
-			workspace = "work",
-			name = "work",
-			path = home,
-		},
-	},
-}
-
 M.workspacefzf = wezterm.action_callback(function(window, pane)
 	local choices = {}
 
