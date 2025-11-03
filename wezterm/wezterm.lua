@@ -1,11 +1,8 @@
--- Pull in the wezterm API
 local wezterm = require("wezterm")
 local keys = require("keys")
 
--- This will hold the configuration.
 local config = wezterm.config_builder()
 
--- For example, changing the initial geometry for new windows:
 config.initial_cols = 120
 config.initial_rows = 28
 
@@ -14,7 +11,7 @@ config.font_size = 10
 config.background = {
 	{
 		source = {
-			Color = "rgb(36, 39, 58)", -- Or your preferred color
+			Color = "rgb(36, 39, 58)",
 		},
 		height = "100%",
 		width = "100%",
@@ -26,7 +23,7 @@ config.background = {
 	},
 	{
 		source = {
-			Color = "rgba(36, 39, 58, 0.95)", -- Or your preferred color
+			Color = "rgba(36, 39, 58, 0.95)",
 		},
 		height = "100%",
 		width = "100%",
@@ -47,5 +44,4 @@ wezterm.on("gui-startup", function(cmd)
 	mux.set_active_workspace("mks")
 end)
 
--- Finally, return the configuration to wezterm:
 return config
