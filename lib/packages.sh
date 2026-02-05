@@ -13,7 +13,7 @@ packages_conf() {
         ["node"]="apt:nodejs pacman:nodejs curl:nvm"
         ["npm"]="apt:npm pacman:npm curl:nvm"
         ["nvm"]="curl:nvm"
-        ["go"]="apt:golang-go pacman:go curl:go"
+        ["go"]="apt:golang-go curl:go"
         ["gopls"]="go:gopls"
     )
 
@@ -137,7 +137,7 @@ packages_conf() {
                     echo "[DRY RUN] Would install Go via official installer"
                 else
                     echo "Installing Go via official installer..."
-                    local go_version="1.21.5"
+                    local go_version="1.25.7"
                     local go_os="linux"
                     local go_arch="amd64"
                     
