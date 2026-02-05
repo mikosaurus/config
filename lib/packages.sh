@@ -15,6 +15,7 @@ packages_conf() {
         ["nvm"]="curl:nvm"
         ["go"]="apt:golang-go curl:go"
         ["gopls"]="go:gopls"
+        ["keychain"]="pacman:keychain"
         ["unzip"]="pacman:unzip"
         ["gcc"]="pacman:gcc"
         ["openssh"]="pacman:openssh"
@@ -251,7 +252,7 @@ packages_conf() {
     }
 
     # Default packages to install
-    local packages_to_install=("node" "npm" "nvm" "go" "gopls", "unzip", "gcc", "openssh", "wget", "eza")
+    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza")
     
     # Allow custom package list from package arguments
     if [ ${#package_args[@]} -gt 0 ]; then
