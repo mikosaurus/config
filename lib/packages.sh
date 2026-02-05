@@ -15,6 +15,10 @@ packages_conf() {
         ["nvm"]="curl:nvm"
         ["go"]="apt:golang-go curl:go"
         ["gopls"]="go:gopls"
+        ["gcc"]="pacman:gcc"
+        ["openssh"]="pacman:openssh"
+        ["wget"]="pacman:wget"
+        ["eza"]="pacman:eza"
     )
 
     # Flag definitions
@@ -246,7 +250,7 @@ packages_conf() {
     }
 
     # Default packages to install
-    local packages_to_install=("node" "npm" "nvm" "go" "gopls")
+    local packages_to_install=("node" "npm" "nvm" "go" "gopls", "gcc", "openssh", "wget", "eza")
     
     # Allow custom package list from package arguments
     if [ ${#package_args[@]} -gt 0 ]; then
