@@ -1,4 +1,5 @@
 alias config="~/github.com/mikosaurus/config/config.sh $1"
+alias ls="eza -a"
 alias k="kubectl"
 alias kube-use-context-home-k3s="kubectl config use-context home-k3s"
 alias vpn-up="sudo wg-quick up wg0"
