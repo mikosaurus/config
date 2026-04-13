@@ -12,6 +12,8 @@ return {
 				vue = { "prettier" },
 				yaml = { "yamlfmt" },
 				YAML = { "yamlfmt" },
+				xml = { "xmlformat" },
+				XML = { "xmlformat" },
 			},
 		})
 		vim.api.nvim_create_autocmd("BufWritePre", {
