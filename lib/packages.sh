@@ -21,6 +21,10 @@ packages_conf() {
         ["openssh"]="pacman:openssh"
         ["wget"]="pacman:wget"
         ["eza"]="pacman:eza"
+        ["fd"]="pacman:fd"
+        ["ripgrep"]="pacman:ripgrep"
+        ["jq"]="pacman:jq"
+        ["pass"]="pacman:pass"
     )
 
     # Flag definitions

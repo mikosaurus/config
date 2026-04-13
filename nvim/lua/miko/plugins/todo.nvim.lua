@@ -1,7 +1,5 @@
 return {
     "mikosaurus/todo.nvim",
-    -- dir = "~/github.com/mikosaurus/todo.nvim",
-    branch = "main",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
         local todofiles = require("todofiles")
@@ -11,7 +9,6 @@ return {
         todofiles.setup({
             treesitter_path = "https://github.com/mikosaurus/tree-sitter-todofiles",
             branch = "main",
-            -- treesitter_path = "~/github.com/mikosaurus/tree-sitter-todofiles",
         })
 
         vim.api.nvim_create_autocmd("FileType", {
@@ -22,6 +19,7 @@ return {
                 vim.keymap.set("n", "<M-n>", todofiles.set_task_open, { buffer = true })
                 vim.keymap.set("n", "<M-d>", todofiles.set_task_done, { buffer = true })
                 vim.keymap.set("n", "<M-c>", todofiles.set_task_cancelled, { buffer = true })
+                vim.keymap.set("n", "<M-s>", todofiles.set_task_started, { buffer = true })
                 vim.keymap.set("n", "<M-N>", todofiles.clear_task, { buffer = true })
             end,
         })
