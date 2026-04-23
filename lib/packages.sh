@@ -187,6 +187,16 @@ packages_conf() {
             "nvm") [ -s "$HOME/.nvm/nvm.sh" ] ;;
             "go") command -v go &> /dev/null ;;
             "gopls") command -v gopls &> /dev/null ;;
+            "keychain") command -v keychain &> /dev/null ;;
+            "unzip") command -v unzip &> /dev/null ;;
+            "gcc") command -v gcc &> /dev/null ;;
+            "openssh") command -v ssh &> /dev/null ;;
+            "wget") command -v wget &> /dev/null ;;
+            "eza") command -v eza &> /dev/null ;;
+            "fd") command -v fd &> /dev/null ;;
+            "ripgrep") command -v rg &> /dev/null ;;
+            "jq") command -v jq &> /dev/null ;;
+            "pass") command -v pass &> /dev/null ;;
             *) false ;;
         esac
     }
@@ -256,7 +266,8 @@ packages_conf() {
     }
 
     # Default packages to install
-    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza")
+    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza" "fd" "ripgrep" "jq" "pass")
+
     
     # Allow custom package list from package arguments
     if [ ${#package_args[@]} -gt 0 ]; then
