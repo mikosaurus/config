@@ -25,6 +25,7 @@ packages_conf() {
         ["ripgrep"]="pacman:ripgrep"
         ["jq"]="pacman:jq"
         ["pass"]="pacman:pass"
+        ["wl-clipboard"]="pacman:wl-clipboard"
     )
 
     # Flag definitions
@@ -197,6 +198,7 @@ packages_conf() {
             "ripgrep") command -v rg &> /dev/null ;;
             "jq") command -v jq &> /dev/null ;;
             "pass") command -v pass &> /dev/null ;;
+            "wl-clipboard") command -v wl-copy &> /dev/null ;;
             *) false ;;
         esac
     }
@@ -266,7 +268,7 @@ packages_conf() {
     }
 
     # Default packages to install
-    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza" "fd" "ripgrep" "jq" "pass")
+    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza" "fd" "ripgrep" "jq" "pass" "wl-clipboard")
 
     
     # Allow custom package list from package arguments
