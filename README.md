@@ -97,4 +97,3 @@ systemctl --user restart kanata.service
 - Oh My Zsh customizations go to `~/.oh-my-zsh/custom/`
 - Kanata service files go to systemd user directory
 
-
