@@ -1,0 +1,60 @@
+#!/bin/bash
+
+pass_conf() {
+    # Source utilities
+    source "$(dirname "$0")/lib/parse_params.sh"
+    source "$(dirname "$0")/lib/help.sh"
+
+    # Configuration variables
+    DRY_RUN=false
+    REPOSITORY=ssh://git@ssh.git.local.mikosaurus.net/mikosaurus/pass.git
+    GITHUB_REPOSITORY=git@github.com/mikosaurus/pass.git
+    PASSWORD_STORE_PATH=~/.password-store
+
+    # Check if tmux is installed
+    if ! command -v pass &> /dev/null; then
+        echo "pass is not installed."
+        read -p "Would you like to install it? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "Installing pass... only pacman available for now"
+            if command -v pass &> /dev/null; then
+                sudo pacman -S pass
+            else
+                echo "Could not detect package manager. Please install tmux manually."
+                exit 1
+            fi
+        else
+            echo "Skipping tmux installation."
+            exit 0
+        fi
+    fi
+
+    # Flag definitions
+    declare -A FLAGS=(
+        ["--dry-run"]="DRY_RUN"
+    )
+
+    # Flag descriptions for help
+    declare -A FLAG_DESCRIPTIONS=(
+        ["--dry-run"]="this will not actually do anything, just pretend :D"
+    )
+
+
+    # Check for help
+    if [[ " $* " == *" --help "* ]]; then
+        print_help "$0" "Install pass and setup .password-store repository" FLAGS FLAG_DESCRIPTIONS
+        exit 0
+    fi
+
+    # Parse command line arguments
+    parse_params "$@" FLAGS FLAG_DESCRIPTIONS
+
+
+    if [ "$DRY_RUN" = false ] ; then
+        git clone $REPOSITORY $PASSWORD_STORE_PATH
+    else
+        echo "Cloning pass repo..."
+    fi
+}
+
