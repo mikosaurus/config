@@ -1,4 +1,4 @@
-GIT_DIR=~/git/mikosaurus
+GIT_DIR=~/git
 alias config="$GIT_DIR/mikosaurus/config/config.sh $1"
 alias ls="eza -a"
 alias k="kubectl"
