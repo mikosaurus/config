@@ -1,13 +1,14 @@
-alias config="~/github.com/mikosaurus/config/config.sh $1"
+GIT_DIR=~/git/mikosaurus
+alias config="$GIT_DIR/mikosaurus/config/config.sh $1"
 alias ls="eza -a"
 alias k="kubectl"
 alias kube-use-context-home-k3s="kubectl config use-context home-k3s"
 alias vpn-up="sudo wg-quick up wg0"
 alias vpn-down="sudo wg-quick down wg0"
 
-alias mks="cd ~/github.com/mikosaurus"
-alias misc="cd ~/github.com/mikosaurus/misc"
-alias notes="cd ~/github.com/mikosaurus/misc/notes"
+alias mks="cd $GIT_DIR/mikosaurus"
+alias misc="cd $GIT_DIR/mikosaurus/misc"
+alias notes="cd $GIT_DIR/mikosaurus/misc/notes"
 
 alias mikopi="ssh pi@mikopi.local.mikosaurus.net"
 
