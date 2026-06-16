@@ -31,6 +31,7 @@ WEZTERM=false
 WEZTERM_TYPES=false
 ASSETS=false
 PASS=false
+USE_GITHUB=false
 GITCONFIG=false
 UPDATE=false
 ALL=false
@@ -54,6 +55,7 @@ declare -A FLAGS=(
     ["--dry-run"]="DRY_RUN"
     ["--wezterm-types"]="WEZTERM_TYPES"
     ["--update"]="UPDATE"
+    ["--github"]="USE_GITHUB"
 )
 
 
@@ -76,6 +78,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["--dry-run"]="this will not actually do anything, just pretend :D"
     ["--wezterm-types"]="install or update wezterm deveoper types"
     ["--update"]="update packages that are supported here (nvim for apt)"
+    ["--github"]="use github repository where its appliccable (assets, pass)"
 )
 
 # Check for help or no parameters
@@ -218,11 +221,19 @@ fi
 
 # assets
 if [ "$ASSETS" = true ]; then 
+    FLAGS=""
     if [ "$DRY_RUN" = true ] ; then
-        assets_conf --dry-run
-    else
-        assets_conf 
+        FLAGS="--dry-run"
     fi
+    if [ "$USE_GITHUB" = true ] ; then
+        FLAGS="$FLAGS --github"
+    fi
+    # if [ "$DRY_RUN" = true ] ; then
+        # assets_conf --dry-run
+        echo "assets_conf $FLAGS"
+    # else
+     #   assets_conf 
+    # fi
 fi 
 
 # pass
