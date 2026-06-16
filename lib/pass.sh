@@ -7,6 +7,7 @@ pass_conf() {
 
     # Configuration variables
     DRY_RUN=false
+    USE_GITHUB=false
     REPOSITORY=ssh://git@ssh.git.local.mikosaurus.net/mikosaurus/pass.git
     GITHUB_REPOSITORY=git@github.com/mikosaurus/pass.git
     PASSWORD_STORE_PATH=~/.password-store
@@ -19,6 +20,7 @@ pass_conf() {
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "Installing pass... only pacman available for now"
             if command -v pass &> /dev/null; then
+                sudo pacman -S resolvconf
                 sudo pacman -S pass
             else
                 echo "Could not detect package manager. Please install tmux manually."
@@ -33,11 +35,13 @@ pass_conf() {
     # Flag definitions
     declare -A FLAGS=(
         ["--dry-run"]="DRY_RUN"
+        ["--github"]="USE_GITHUB"
     )
 
     # Flag descriptions for help
     declare -A FLAG_DESCRIPTIONS=(
         ["--dry-run"]="this will not actually do anything, just pretend :D"
+        ["--github"]="use github repository instead of forgejo"
     )
 
 
@@ -49,6 +53,11 @@ pass_conf() {
 
     # Parse command line arguments
     parse_params "$@" FLAGS FLAG_DESCRIPTIONS
+
+    REPO=$REPOSITORY
+    if [ "$USE_GITHUB" = true ] ; then
+        REPO=$GITHUB_REPOSITORY
+    fi
 
 
     if [ "$DRY_RUN" = false ] ; then
