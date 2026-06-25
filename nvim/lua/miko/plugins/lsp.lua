@@ -37,7 +37,12 @@ return {
         vim.keymap.set("n", "gd", vim.lsp.buf.definition)
         vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol)
         vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float)
-        vim.keymap.set("n", "<leader>vn", vim.diagnostic.goto_next)
+        vim.keymap.set("n", "<leader>vn", function()
+            vim.diagnostic.jump({ count = 1, float = true })
+        end)
+        vim.keymap.set("n", "<leader>vp", function()
+            vim.diagnostic.jump({ count = -1, float = true })
+        end)
         vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action)
         vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references)
         vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename)
@@ -65,56 +70,7 @@ return {
                 "ts_ls",
                 "vue_ls",
             },
-            handlers = {
-                function(server_name)
-                    if server_name ~= "jdtls" then
-                        local lspconfig = require("lspconfig")
-                        lspconfig[server_name].setup({
-                            capabilities = capabilities,
-                        })
-                    end
-                end,
-
-                zls = function()
-                    local lspconfig = require("lspconfig")
-                    vim.lsp.config("zls", {
-                        root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
-                        settings = {
-                            zls = {
-                                enable_inlay_hints = true,
-                                enable_snippets = true,
-                                warn_style = true,
-                            },
-                        },
-                    })
-                    vim.g.zig_fmt_parse_errors = 0
-                    vim.g.zig_fmt_autosave = 0
-                end,
-                ["lua_ls"] = function()
-                    vim.lsp.config("lua_ls", {
-                        capabilities = capabilities,
-                        settings = {
-                            Lua = {
-                                format = {
-                                    enable = true,
-                                    -- Put format options here
-                                    -- NOTE: the value should be STRING!!
-                                    defaultConfig = {
-                                        indent_style = "space",
-                                        indent_size = "2",
-                                    },
-                                },
-                                workspace = {
-                                    library = {
-                                        vim.env.VIMRUNTIME,
-                                        vim.fn.expand("~/.local/share/nvim/types/wezterm-types"),
-                                    },
-                                },
-                            },
-                        },
-                    })
-                end,
-            },
+            automatic_enable = false,
         })
 
         require("mason-tool-installer").setup({
@@ -228,6 +184,32 @@ return {
                     hybridMode = true,
                 },
             },
+        })
+
+        vim.lsp.config("lua_ls", {
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    diagnostics = {
+                        globals = { "vim" },
+                    },
+                    workspace = {
+                        library = {
+                            vim.env.VIMRUNTIME,
+                        },
+                        checkThirdParty = false,
+                    },
+                },
+            },
+        })
+
+        vim.lsp.enable({
+            "lua_ls",
+            "rust_analyzer",
+            "gopls",
+            "eslint",
+            "ts_ls",
+            "vue_ls",
         })
     end,
 }
