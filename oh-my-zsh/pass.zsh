@@ -10,16 +10,14 @@ fi
 
 if [ ! -f ~/.mks/pass.cache ] || \
    [ $(( $(date +%s) - $(date -r ~/.mks/pass.cache +%s) )) -gt 86400 ]; then
-  update_pass
-  return
+    if ! nslookup ssh.git.353.no > /dev/null 2>&1; then
+        echo "unable to talk to local git server"
+        return
+    else
+        mkdir -p ~/.mks
+        date > ~/.mks/pass.cache
+    fi
 fi
 
-if ! nslookup ssh.git.353.no > /dev/null 2>&1; then
-  echo "unable to talk to local git server"
-else
-  mkdir -p ~/.mks
-  date > ~/.mks/pass.cache
-  update_pass
-fi
-
+update_pass
 
