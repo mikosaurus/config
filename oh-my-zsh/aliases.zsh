@@ -34,6 +34,6 @@ gsqu() {
 }
 
 clip() {
-    $1 | xclip -sel clip
+    xclip -sel clip
 }
 
