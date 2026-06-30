@@ -12,7 +12,7 @@ pass_conf() {
     GITHUB_REPOSITORY=git@github.com/mikosaurus/pass.git
     PASSWORD_STORE_PATH=~/.password-store
 
-    # Check if tmux is installed
+    # Check if pass is installed
     if ! command -v pass &> /dev/null; then
         echo "pass is not installed."
         read -p "Would you like to install it? (y/N): " -n 1 -r
@@ -28,7 +28,7 @@ pass_conf() {
                 exit 1
             fi
         else
-            echo "Skipping tmux installation."
+            echo "Skipping pass installation."
             exit 0
         fi
     fi

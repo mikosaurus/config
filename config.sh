@@ -13,6 +13,8 @@ source "$(dirname "$0")/lib/wezterm.sh"
 source "$(dirname "$0")/lib/assets.sh"
 source "$(dirname "$0")/lib/pass.sh"
 source "$(dirname "$0")/lib/gitconfig.sh"
+source "$(dirname "$0")/lib/yay.sh"
+source "$(dirname "$0")/lib/paru.sh"
 export ROOT_DIR=$(dirname "$(realpath "$0")")
 
 
@@ -32,6 +34,8 @@ ASSETS=false
 PASS=false
 USE_GITHUB=false
 GITCONFIG=false
+YAY=false
+PARU=false
 UPDATE=false
 ALL=false
 
@@ -47,6 +51,8 @@ declare -A FLAGS=(
     ["assets"]="ASSETS"
     ["pass"]="PASS"
     ["gitconfig"]="GITCONFIG"
+    ["yay"]="YAY"
+    ["paru"]="PARU"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -69,6 +75,8 @@ declare -A FLAG_DESCRIPTIONS=(
     ["assets"]="download personal assets. will only work with ssh key available"
     ["pass"]="install passwordstore cli"
     ["gitconfig"]="copy .gitconfig file to the home folder"
+    ["yay"]="install yay AUR helper (Arch Linux only)"
+    ["paru"]="install paru AUR helper (Arch Linux only)"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -249,4 +257,22 @@ if [ "$GITCONFIG" = true ]; then
     else
         git_conf 
     fi
+fi
+
+# yay
+if [ "$YAY" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        yay_conf --dry-run
+    else
+        yay_conf
+    fi 
+fi
+
+# paru
+if [ "$PARU" = true ]; then 
+    if [ "$DRY_RUN" = true ] ; then
+        paru_conf --dry-run
+    else
+        paru_conf
+    fi 
 fi 
