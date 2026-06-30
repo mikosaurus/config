@@ -49,7 +49,7 @@ yay_conf() {
         # Ensure base-devel and git are installed
         if ! command -v makepkg &> /dev/null; then
             echo "Installing base-devel (required for building yay)..."
-            sudo pacman -S --needed --noconfirm base-devel git
+            sudo pacman -S --needed --noconfirm debugedit fakeroot base-devel git
         fi
 
         # Clone and build yay
