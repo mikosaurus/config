@@ -8,7 +8,8 @@ if ! command -v nslookup > /dev/null 2>&1; then
     return
 fi
 
-if [ ! -f ~/.mks/pass.cache ] && [ $(( $(date +%s) - $(date -r ~/.mks/pass.cache +%s) )) -le 86400 ]; then
+if [ ! -f ~/.mks/pass.cache ] || \
+   [ $(( $(date +%s) - $(date -r ~/.mks/pass.cache +%s) )) -gt 86400 ]; then
   update_pass
   return
 fi
