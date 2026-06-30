@@ -38,11 +38,6 @@ tmux_conf() {
             exit 0
         fi
     fi
-        else
-            echo "Skipping tmux installation."
-            exit 0
-        fi
-    fi
 
     # Flag definitions
     declare -A FLAGS=(
