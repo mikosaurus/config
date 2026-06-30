@@ -48,8 +48,10 @@ wezterm_conf() {
                 sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
                 sudo apt update
                 sudo apt install wezterm
+            elif command -v paru >/dev/null 2>&1; then
+                paru -S --noconfirm --needed wezterm
             elif command -v yay >/dev/null 2>&1; then
-                yay -S --noconfirm -needed wezterm
+                yay -S --noconfirm --needed wezterm
             elif command -v brew >/dev/null 2>&1; then
                 brew install wezterm
             fi

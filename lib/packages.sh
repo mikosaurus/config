@@ -13,7 +13,7 @@ packages_conf() {
         ["node"]="apt:nodejs pacman:nodejs curl:nvm"
         ["npm"]="apt:npm pacman:npm curl:nvm"
         ["nvm"]="curl:nvm"
-        ["go"]="apt:golang-go curl:go"
+        ["go"]="apt:golang-go pacman:go curl:go"
         ["gopls"]="go:gopls"
         ["keychain"]="apt:keychain pacman:keychain"
         ["unzip"]="apt:unzip pacman:unzip"

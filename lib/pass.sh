@@ -18,12 +18,13 @@ pass_conf() {
         read -p "Would you like to install it? (y/N): " -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
-            echo "Installing pass... only pacman available for now"
-            if command -v pass &> /dev/null; then
-                sudo pacman -S resolvconf
-                sudo pacman -S pass
+            echo "Installing pass..."
+            if command -v apt &> /dev/null; then
+                sudo apt update && sudo apt install -y pass
+            elif command -v pacman &> /dev/null; then
+                sudo pacman -S --needed resolvconf pass
             else
-                echo "Could not detect package manager. Please install tmux manually."
+                echo "Could not detect package manager. Please install pass manually."
                 exit 1
             fi
         else
