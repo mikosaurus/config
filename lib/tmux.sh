@@ -8,6 +8,12 @@ tmux_conf() {
     # Configuration variables
     DRY_RUN=false
 
+    # Clone TPM if not already present
+    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+        echo "Installing TPM..."
+        git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+    fi
+
     # Check if tmux is installed
     if ! command -v tmux &> /dev/null; then
         echo "Tmux is not installed."
@@ -15,8 +21,6 @@ tmux_conf() {
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "Installing tmux..."
-            echo "Install tmp..."
-            git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
             if command -v apt &> /dev/null; then
                 sudo apt update && sudo apt install -y tmux
             elif command -v pacman &> /dev/null; then
@@ -29,6 +33,11 @@ tmux_conf() {
                 echo "Could not detect package manager. Please install tmux manually."
                 exit 1
             fi
+        else
+            echo "Skipping tmux installation."
+            exit 0
+        fi
+    fi
         else
             echo "Skipping tmux installation."
             exit 0
