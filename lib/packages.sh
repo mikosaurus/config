@@ -170,6 +170,8 @@ packages_conf() {
                     echo "Go installed to /usr/local/go"
                     echo "Add the following to your shell profile:"
                     echo "export PATH=\$PATH:/usr/local/go/bin"
+                    # Write go private to go env
+                    go env -w GOPRIVATE='github.com/mikosaurus/*,git.local.mikosaurus.net/mikosaurus/*,git.353.net/mikosaurus/*'
                 fi
                 ;;
             *)
