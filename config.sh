@@ -15,6 +15,7 @@ source "$(dirname "$0")/lib/pass.sh"
 source "$(dirname "$0")/lib/gitconfig.sh"
 source "$(dirname "$0")/lib/yay.sh"
 source "$(dirname "$0")/lib/paru.sh"
+source "$(dirname "$0")/lib/tailscale.sh"
 export ROOT_DIR=$(dirname "$(realpath "$0")")
 
 
@@ -36,6 +37,7 @@ USE_GITHUB=false
 GITCONFIG=false
 YAY=false
 PARU=false
+TAILSCALE=false
 UPDATE=false
 ALL=false
 
@@ -53,6 +55,7 @@ declare -A FLAGS=(
     ["gitconfig"]="GITCONFIG"
     ["yay"]="YAY"
     ["paru"]="PARU"
+    ["tailscale"]="TAILSCALE"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -77,6 +80,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["gitconfig"]="copy .gitconfig file to the home folder"
     ["yay"]="install yay AUR helper (Arch Linux only)"
     ["paru"]="install paru AUR helper (Arch Linux only)"
+    ["tailscale"]="install tailscale and start the login process (not included in 'all')"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -269,10 +273,19 @@ if [ "$YAY" = true ]; then
 fi
 
 # paru
-if [ "$PARU" = true ]; then 
+if [ "$PARU" = true ]; then
     if [ "$DRY_RUN" = true ] ; then
         paru_conf --dry-run
     else
         paru_conf
-    fi 
-fi 
+    fi
+fi
+
+# tailscale
+if [ "$TAILSCALE" = true ]; then
+    if [ "$DRY_RUN" = true ] ; then
+        tailscale_conf --dry-run
+    else
+        tailscale_conf
+    fi
+fi
