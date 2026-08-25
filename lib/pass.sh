@@ -20,7 +20,7 @@ pass_conf() {
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "Installing pass..."
             if command -v apt &> /dev/null; then
-                sudo apt update && sudo apt install -y pass
+                sudo apt update && sudo apt install -y pass pass-otp
             elif command -v pacman &> /dev/null; then
                 sudo pacman -S --needed resolvconf pass
             else
