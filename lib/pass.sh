@@ -41,7 +41,7 @@ pass_conf() {
 
     # Flag descriptions for help
     declare -A FLAG_DESCRIPTIONS=(
-        ["--dry-run"]="this will not actually do anything, just pretend :D"
+        ["--dry-run"]="this will not actually do anything, just pretend 😄"
         ["--github"]="use github repository instead of forgejo"
     )
 
