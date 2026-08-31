@@ -1,6 +1,5 @@
 -- vim.opt.guicursor = ""
 
-
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -31,9 +30,11 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "85"
 
-vim.opt.foldlevel=20
-vim.opt.foldmethod="expr"
-vim.opt.foldexpr="nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 20
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-vim.g.netrw_altv=1
-vim.g.netrw_winsize=50
+vim.g.netrw_altv = 1
+vim.g.netrw_winsize = 50
+
+vim.opt.diffopt = { "internal", "filler", "closeoff", "indent-heuristic", "inline:char" }
