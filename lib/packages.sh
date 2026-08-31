@@ -27,6 +27,7 @@ packages_conf() {
         ["pass"]="apt:pass pacman:pass"
         ["wl-clipboard"]="apt:wl-clipboard pacman:wl-clipboard"
         ["nslookup"]="apt:dnsutils pacman:bind"
+        ["diffutils"]="pacman:diffutils"
     )
 
     # Flag definitions
@@ -203,6 +204,7 @@ packages_conf() {
             "pass") command -v pass &> /dev/null ;;
             "wl-clipboard") command -v wl-copy &> /dev/null ;;
             "nslookup") command -v nslookup &> /dev/null ;;
+            "diffutils") command -v diff &> /dev/null ;;
             *) false ;;
         esac
     }
@@ -272,7 +274,7 @@ packages_conf() {
     }
 
     # Default packages to install
-    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza" "fd" "ripgrep" "jq" "pass" "wl-clipboard" "nslookup")
+    local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza" "fd" "ripgrep" "jq" "pass" "wl-clipboard" "nslookup" "diffutils")
 
     
     # Allow custom package list from package arguments
