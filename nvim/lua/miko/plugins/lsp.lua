@@ -204,6 +204,17 @@ return {
             },
         })
 
+        vim.lsp.config("csharp_ls", {
+            capabilities = capabilities,
+            root_dir = function(bufnr, on_dir)
+                local util = require("lspconfig.util")
+                local fname = vim.api.nvim_buf_get_name(bufnr)
+                on_dir(util.root_pattern("*.slnx")(fname)
+                    or util.root_pattern("*.sln")(fname)
+                    or util.root_pattern("*.csproj")(fname))
+            end,
+        })
+
         vim.lsp.enable({
             "lua_ls",
             "rust_analyzer",
