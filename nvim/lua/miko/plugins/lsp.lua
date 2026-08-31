@@ -69,6 +69,7 @@ return {
                 "jdtls",
                 "ts_ls",
                 "vue_ls",
+                "csharp_ls",
             },
             automatic_enable = false,
         })
@@ -210,6 +211,7 @@ return {
             "eslint",
             "ts_ls",
             "vue_ls",
+            "csharp_ls",
         })
     end,
 }
