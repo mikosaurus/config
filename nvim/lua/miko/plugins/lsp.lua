@@ -69,7 +69,9 @@ return {
                 "jdtls",
                 "ts_ls",
                 "vue_ls",
-                "csharp_ls",
+                "vtsls",
+                "roslyn_ls",
+                "angularls",
             },
             automatic_enable = false,
         })
@@ -157,32 +159,35 @@ return {
         })
 
         -- Configure TypeScript Language Server with Vue plugin
-        -- local lspconfig = require("lspconfig")
-        -- local lspconfig = vim.lsp.config()
         local vue_language_server_path = vim.fn.stdpath("data")
             .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
 
-        vim.lsp.config("ts_ls", {
-            capabilities = capabilities,
-            init_options = {
-                plugins = {
-                    {
-                        name = "@vue/typescript-plugin",
-                        location = vue_language_server_path,
-                        languages = { "vue" },
-                    },
-                },
-            },
-            filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-        })
-
-        -- Configure Vue Language Server (Volar) in hybrid mode
         vim.lsp.config("vtsls", {
             capabilities = capabilities,
-            filetypes = { "vue" },
+            -- Added typescript/javascript so vtsls handles normal TS/JS as well as Vue files
+            filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
             init_options = {
                 vue = {
                     hybridMode = true,
+                },
+                -- This block tells vtsls to register both Vue and Angular plugins
+                typescript = {
+                    tsserver = {
+                        globalPlugins = {
+                            {
+                                name = "@vue/typescript-plugin",
+                                location = vue_language_server_path,
+                                languages = { "vue" },
+                            },
+                            {
+                                name = "@angular/language-server",
+                                -- Tries to find angular LS dynamically from Mason paths
+                                location = vim.fn.stdpath("data")
+                                    .. "/mason/packages/angular-language-server/node_modules/@angular/language-server",
+                                enableForWorkspaceTypeScriptVersions = false,
+                            },
+                        },
+                    },
                 },
             },
         })
@@ -209,20 +214,33 @@ return {
             root_dir = function(bufnr, on_dir)
                 local util = require("lspconfig.util")
                 local fname = vim.api.nvim_buf_get_name(bufnr)
-                on_dir(util.root_pattern("*.slnx")(fname)
-                    or util.root_pattern("*.sln")(fname)
-                    or util.root_pattern("*.csproj")(fname))
+                on_dir(
+                    util.root_pattern("*.slnx")(fname)
+                        or util.root_pattern("*.sln")(fname)
+                        or util.root_pattern("*.csproj")(fname)
+                )
             end,
         })
 
-        vim.lsp.enable({
+        vim.lsp.config("angularls", {
+            capabilities = capabilities,
+            filetypes = { "htmlangular" },
+        })
+
+        -- FIXED: Native vim.lsp.enable loops over server names using strings explicitly
+        local servers = {
             "lua_ls",
             "rust_analyzer",
             "gopls",
             "eslint",
-            "ts_ls",
+            "vtsls",
             "vue_ls",
-            "csharp_ls",
-        })
+            "roslyn_ls",
+            "angularls",
+        }
+
+        for _, server in ipairs(servers) do
+            vim.lsp.enable(server)
+        end
     end,
 }

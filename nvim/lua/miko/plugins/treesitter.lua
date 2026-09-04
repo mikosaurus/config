@@ -17,6 +17,8 @@ return {
 					"bash",
 					"go",
 					"java",
+					"html",
+					"angular",
 				},
 
 				-- Install parsers synchronously (only applied to `ensure_installed`)
