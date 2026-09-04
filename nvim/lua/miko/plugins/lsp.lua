@@ -227,6 +227,31 @@ return {
             filetypes = { "htmlangular" },
         })
 
+        vim.lsp.config("eslint", {
+            capabilities = capabilities,
+            -- Prevent ESLint from activating unless a valid local config file is found
+            root_dir = function(bufnr, on_dir)
+                local util = require("lspconfig.util")
+                local fname = vim.api.nvim_buf_get_name(bufnr)
+                local root = util.root_pattern(
+                    "eslint.config.js",
+                    "eslint.config.mjs",
+                    "eslint.config.cjs",
+                    ".eslintrc.js",
+                    ".eslintrc.json",
+                    ".eslintrc"
+                )(fname)
+
+                -- Only boot up the server if a config file is present in the workspace
+                if root then
+                    on_dir(root)
+                end
+            end,
+            settings = {
+                workingDirectory = { mode = "auto" }, -- Gracefully handles monorepos
+            },
+        })
+
         -- FIXED: Native vim.lsp.enable loops over server names using strings explicitly
         local servers = {
             "lua_ls",

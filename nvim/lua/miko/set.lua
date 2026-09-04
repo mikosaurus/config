@@ -32,7 +32,7 @@ vim.opt.colorcolumn = "85"
 
 vim.opt.foldlevel = 20
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr() == '0' ? 'indent(v:lnum)' : v:lua.vim.treesitter.foldexpr()"
 
 vim.g.netrw_altv = 1
 vim.g.netrw_winsize = 50
