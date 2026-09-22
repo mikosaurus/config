@@ -61,30 +61,12 @@ return {
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = {
-                "lua_ls",
-                "rust_analyzer",
-                "gopls",
-                "eslint",
-                "jdtls",
-                "ts_ls",
-                "vue_ls",
-                "vtsls",
-                "roslyn_ls",
-                "angularls",
-            },
+            ensure_installed = require("miko.masonconfig").lsp_config,
             automatic_enable = false,
         })
 
         require("mason-tool-installer").setup({
-            ensure_installed = {
-                "java-debug-adapter",
-                "java-test",
-                "stylua",
-                "google-java-format",
-                "prettier",
-                "vue-language-server",
-            },
+            ensure_installed = require("miko.masonconfig").dap_config,
         })
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -229,7 +211,15 @@ return {
 
         vim.lsp.config("eslint", {
             capabilities = capabilities,
-            filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "html", "htmlangular" },
+            filetypes = {
+                "javascript",
+                "javascriptreact",
+                "typescript",
+                "typescriptreact",
+                "vue",
+                "html",
+                "htmlangular",
+            },
             settings = {
                 validate = "on",
                 useESLintClass = true,
