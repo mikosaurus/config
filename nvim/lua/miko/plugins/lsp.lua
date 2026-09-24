@@ -35,6 +35,7 @@ return {
             cmp_lsp.default_capabilities()
         )
         vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+        vim.keymap.set("n", "gD", vim.lsp.buf.implementation)
         vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol)
         vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float)
         vim.keymap.set("n", "<leader>vn", function()
