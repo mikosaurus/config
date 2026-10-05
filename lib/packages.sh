@@ -10,24 +10,24 @@ packages_conf() {
 
     # Package definitions with installation methods
     declare -A PACKAGES=(
-        ["node"]="apt:nodejs pacman:nodejs curl:nvm"
-        ["npm"]="apt:npm pacman:npm curl:nvm"
+        ["node"]="apt:nodejs pacman:nodejs zypper:nodejs-default curl:nvm"
+        ["npm"]="apt:npm pacman:npm zypper:npm-default curl:nvm"
         ["nvm"]="curl:nvm"
-        ["go"]="apt:golang-go pacman:go curl:go"
+        ["go"]="apt:golang-go pacman:go zypper:go curl:go"
         ["gopls"]="go:gopls"
-        ["keychain"]="apt:keychain pacman:keychain"
-        ["unzip"]="apt:unzip pacman:unzip"
-        ["gcc"]="apt:gcc pacman:gcc"
-        ["openssh"]="apt:openssh-client pacman:openssh"
-        ["wget"]="apt:wget pacman:wget"
-        ["eza"]="apt:eza pacman:eza"
-        ["fd"]="apt:fd-find pacman:fd"
-        ["ripgrep"]="apt:ripgrep pacman:ripgrep"
-        ["jq"]="apt:jq pacman:jq"
-        ["pass"]="apt:pass pacman:pass"
-        ["wl-clipboard"]="apt:wl-clipboard pacman:wl-clipboard"
-        ["nslookup"]="apt:dnsutils pacman:bind"
-        ["diffutils"]="pacman:diffutils"
+        ["keychain"]="apt:keychain pacman:keychain zypper:keychain"
+        ["unzip"]="apt:unzip pacman:unzip zypper:unzip"
+        ["gcc"]="apt:gcc pacman:gcc zypper:gcc"
+        ["openssh"]="apt:openssh-client pacman:openssh zypper:openssh-clients"
+        ["wget"]="apt:wget pacman:wget zypper:wget"
+        ["eza"]="apt:eza pacman:eza zypper:eza"
+        ["fd"]="apt:fd-find pacman:fd zypper:fd"
+        ["ripgrep"]="apt:ripgrep pacman:ripgrep zypper:ripgrep"
+        ["jq"]="apt:jq pacman:jq zypper:jq"
+        ["pass"]="apt:pass pacman:pass zypper:password-store"
+        ["wl-clipboard"]="apt:wl-clipboard pacman:wl-clipboard zypper:wl-clipboard"
+        ["nslookup"]="apt:dnsutils pacman:bind zypper:bind-utils"
+        ["diffutils"]="pacman:diffutils zypper:diffutils"
     )
 
     # Flag definitions
@@ -75,6 +75,8 @@ packages_conf() {
             else
                 echo "pacman"
             fi
+        elif command -v zypper &> /dev/null; then
+            echo "zypper"
         else
             echo "unknown"
         fi
@@ -99,6 +101,17 @@ packages_conf() {
         else
             echo "Installing $package via pacman..."
             sudo pacman -S --needed "$package"
+        fi
+    }
+
+    # Install via zypper
+    install_zypper() {
+        local package=$1
+        if [ "$DRY_RUN" = true ]; then
+            echo "[DRY RUN] Would run: sudo zypper install -y $package"
+        else
+            echo "Installing $package via zypper..."
+            sudo zypper install -y "$package"
         fi
     }
 
@@ -243,6 +256,13 @@ packages_conf() {
                 "pacman")
                     if [[ "$pkg_manager" == "pacman" ]]; then
                         install_pacman "$method_package"
+                        installed=true
+                        break
+                    fi
+                    ;;
+                "zypper")
+                    if [[ "$pkg_manager" == "zypper" ]]; then
+                        install_zypper "$method_package"
                         installed=true
                         break
                     fi

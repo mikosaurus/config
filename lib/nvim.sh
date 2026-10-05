@@ -45,6 +45,8 @@ nvim_conf() {
                     sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
                 elif command -v pacman &> /dev/null; then
                     sudo pacman -S neovim
+                elif command -v zypper &> /dev/null; then
+                    sudo zypper install -y neovim
                 elif command -v dnf &> /dev/null; then
                     sudo dnf install -y neovim
                 elif command -v brew &> /dev/null; then

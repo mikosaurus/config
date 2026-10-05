@@ -38,6 +38,10 @@ hyprland_conf() {
     # Copy hyprland config files if they exist
     if [ -d "$ROOT_DIR/hyprland" ]; then
         cp -r "$ROOT_DIR/hyprland/"* "$hypr_config_dir/"
+        # hyprland.lua takes over from hyprland.conf on Hyprland 0.55+, older versions ignore it
+        if [ -f "$hypr_config_dir/hyprland.conf" ]; then
+            echo "Note: $hypr_config_dir/hyprland.conf still exists, but is ignored now that hyprland.lua is present"
+        fi
         echo "Hyprland config copied to $hypr_config_dir"
     else
         echo "No hyprland config directory found to copy"

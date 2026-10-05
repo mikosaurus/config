@@ -47,6 +47,8 @@ zsh_conf() {
                 sudo yum install -y zsh
             elif command -v pacman >/dev/null 2>&1; then
                 sudo pacman -S --noconfirm zsh
+            elif command -v zypper >/dev/null 2>&1; then
+                sudo zypper install -y zsh
             elif command -v brew >/dev/null 2>&1; then
                 brew install zsh
             fi

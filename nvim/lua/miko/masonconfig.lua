@@ -9,7 +9,6 @@ M.lsp_config = {
     "ts_ls",
     "vue_ls",
     "vtsls",
-    "roslyn_ls",
     "angularls",
 }
 

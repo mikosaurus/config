@@ -52,6 +52,8 @@ wezterm_conf() {
                 paru -S --noconfirm --needed wezterm
             elif command -v yay >/dev/null 2>&1; then
                 yay -S --noconfirm --needed wezterm
+            elif command -v zypper >/dev/null 2>&1; then
+                sudo zypper install -y wezterm
             elif command -v brew >/dev/null 2>&1; then
                 brew install wezterm
             fi

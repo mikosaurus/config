@@ -23,6 +23,8 @@ pass_conf() {
                 sudo apt update && sudo apt install -y pass pass-otp
             elif command -v pacman &> /dev/null; then
                 sudo pacman -S --needed resolvconf pass
+            elif command -v zypper &> /dev/null; then
+                sudo zypper install -y password-store
             else
                 echo "Could not detect package manager. Please install pass manually."
                 exit 1
