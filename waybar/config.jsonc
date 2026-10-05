@@ -1,0 +1,65 @@
+// Basic waybar for Hyprland. Text labels only, so no icon font is required.
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 0,
+
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["tray", "pulseaudio", "network", "cpu", "memory", "battery"],
+
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+
+    "hyprland/window": {
+        "max-length": 60,
+        "separate-outputs": true
+    },
+
+    "clock": {
+        "format": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "pulseaudio": {
+        "format": "VOL {volume}%",
+        "format-muted": "VOL muted",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "scroll-step": 5
+    },
+
+    "network": {
+        "format-wifi": "WIFI {essid} {signalStrength}%",
+        "format-ethernet": "ETH {ipaddr}",
+        "format-disconnected": "NET down",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr} via {gwaddr}"
+    },
+
+    "cpu": {
+        "format": "CPU {usage}%",
+        "interval": 5
+    },
+
+    "memory": {
+        "format": "MEM {percentage}%",
+        "interval": 5
+    },
+
+    "battery": {
+        "format": "BAT {capacity}%",
+        "format-charging": "CHR {capacity}%",
+        "format-plugged": "AC {capacity}%",
+        "states": {
+            "warning": 25,
+            "critical": 10
+        }
+    }
+}

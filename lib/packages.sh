@@ -28,6 +28,20 @@ packages_conf() {
         ["wl-clipboard"]="apt:wl-clipboard pacman:wl-clipboard zypper:wl-clipboard"
         ["nslookup"]="apt:dnsutils pacman:bind zypper:bind-utils"
         ["diffutils"]="pacman:diffutils zypper:diffutils"
+        ["hyprland"]="pacman:hyprland zypper:hyprland"
+        ["waybar"]="pacman:waybar zypper:waybar"
+        ["rofi"]="pacman:rofi zypper:rofi"
+        ["hyprpaper"]="pacman:hyprpaper zypper:hyprpaper"
+        ["hyprlock"]="pacman:hyprlock zypper:hyprlock"
+        ["hypridle"]="pacman:hypridle zypper:hypridle"
+        ["mako"]="pacman:mako zypper:mako"
+        ["brightnessctl"]="pacman:brightnessctl zypper:brightnessctl"
+        ["playerctl"]="pacman:playerctl zypper:playerctl"
+        ["xdg-desktop-portal-hyprland"]="pacman:xdg-desktop-portal-hyprland zypper:xdg-desktop-portal-hyprland"
+        ["pipewire"]="pacman:pipewire zypper:pipewire"
+        ["pipewire-pulse"]="pacman:pipewire-pulse zypper:pipewire-pulseaudio"
+        ["wireplumber"]="pacman:wireplumber zypper:wireplumber"
+        ["dejavu-fonts"]="pacman:ttf-dejavu zypper:dejavu-fonts"
     )
 
     # Flag definitions
@@ -218,6 +232,11 @@ packages_conf() {
             "wl-clipboard") command -v wl-copy &> /dev/null ;;
             "nslookup") command -v nslookup &> /dev/null ;;
             "diffutils") command -v diff &> /dev/null ;;
+            "hyprland") command -v hyprctl &> /dev/null ;;
+            "xdg-desktop-portal-hyprland") [ -e /usr/share/xdg-desktop-portal/portals/hyprland.portal ] ;;
+            "wireplumber") command -v wpctl &> /dev/null ;;
+            "dejavu-fonts") fc-list 2> /dev/null | grep -qi dejavu ;;
+            "pipewire"|"pipewire-pulse"|"waybar"|"rofi"|"hyprpaper"|"hyprlock"|"hypridle"|"mako"|"brightnessctl"|"playerctl") command -v "$package" &> /dev/null ;;
             *) false ;;
         esac
     }
@@ -297,9 +316,19 @@ packages_conf() {
     local packages_to_install=("node" "npm" "nvm" "go" "gopls" "keychain" "unzip" "gcc" "openssh" "wget" "eza" "fd" "ripgrep" "jq" "pass" "wl-clipboard" "nslookup" "diffutils")
 
     
+    # Hyprland desktop packages, installed with "pkg desktop"
+    local desktop_packages=("hyprland" "waybar" "rofi" "hyprpaper" "hyprlock" "hypridle" "mako" "brightnessctl" "playerctl" "xdg-desktop-portal-hyprland" "pipewire" "pipewire-pulse" "wireplumber" "dejavu-fonts")
+
     # Allow custom package list from package arguments
     if [ ${#package_args[@]} -gt 0 ]; then
-        packages_to_install=("${package_args[@]}")
+        packages_to_install=()
+        for arg in "${package_args[@]}"; do
+            if [[ "$arg" == "desktop" ]]; then
+                packages_to_install+=("${desktop_packages[@]}")
+            else
+                packages_to_install+=("$arg")
+            fi
+        done
     fi
     
     echo "Installing development packages..."

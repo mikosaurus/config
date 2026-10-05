@@ -16,6 +16,7 @@ source "$(dirname "$0")/lib/gitconfig.sh"
 source "$(dirname "$0")/lib/yay.sh"
 source "$(dirname "$0")/lib/paru.sh"
 source "$(dirname "$0")/lib/tailscale.sh"
+source "$(dirname "$0")/lib/sddm.sh"
 export ROOT_DIR=$(dirname "$(realpath "$0")")
 
 
@@ -38,6 +39,7 @@ GITCONFIG=false
 YAY=false
 PARU=false
 TAILSCALE=false
+SDDM=false
 UPDATE=false
 ALL=false
 
@@ -56,6 +58,7 @@ declare -A FLAGS=(
     ["yay"]="YAY"
     ["paru"]="PARU"
     ["tailscale"]="TAILSCALE"
+    ["sddm"]="SDDM"
     ["--reload-kanata"]="RELOAD_KANATA"
     ["--enable-kanata"]="ENABLE_KANATA_SERVICE"
     ["--disable-kanata"]="DISABLE_KANATA_SERVICE"
@@ -73,7 +76,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["tmux"]="copy and reload tmux config"
     ["zsh"]="copy zsh config, need to restart or open a new zsh for it to take effect"
     ["hyprland"]="copy hyprland config to ~/.config/hypr (only if hyprctl is available)"
-    ["pkg"]="install development packages"
+    ["pkg"]="install development packages, or the ones named after it ('pkg desktop' for the hyprland desktop set)"
     ["wezterm"]="install and configure wezterm"
     ["assets"]="download personal assets. will only work with ssh key available"
     ["pass"]="install passwordstore cli"
@@ -81,6 +84,7 @@ declare -A FLAG_DESCRIPTIONS=(
     ["yay"]="install yay AUR helper (Arch Linux only)"
     ["paru"]="install paru AUR helper (Arch Linux only)"
     ["tailscale"]="install tailscale and start the login process (not included in 'all')"
+    ["sddm"]="install sddm and enable it as the graphical login screen (not included in 'all')"
     ["--reload-kanata"]="with this flag, kanata config will be copied and kanata will be restarted"
     ["--enable-kanata"]="enable kanata systemd service"
     ["--disable-kanata"]="disable kanata systemd service"
@@ -287,5 +291,14 @@ if [ "$TAILSCALE" = true ]; then
         tailscale_conf --dry-run
     else
         tailscale_conf
+    fi
+fi
+
+# sddm
+if [ "$SDDM" = true ]; then
+    if [ "$DRY_RUN" = true ] ; then
+        sddm_conf --dry-run
+    else
+        sddm_conf
     fi
 fi

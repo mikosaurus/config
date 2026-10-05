@@ -1,0 +1,89 @@
+/* Catppuccin Macchiato, same flavor as tmux */
+@define-color base     #24273a;
+@define-color crust    #181926;
+@define-color surface0 #363a4f;
+@define-color surface1 #494d64;
+@define-color text     #cad3f5;
+@define-color subtext  #a5adcb;
+@define-color blue     #8aadf4;
+@define-color green    #a6da95;
+@define-color yellow   #eed49f;
+@define-color red      #ed8796;
+
+* {
+    font-family: monospace;
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: alpha(@base, 0.92);
+    color: @text;
+}
+
+tooltip {
+    background-color: @crust;
+    border: 1px solid @surface1;
+    border-radius: 8px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    color: @subtext;
+    background-color: transparent;
+}
+
+#workspaces button:hover {
+    background-color: @surface0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#workspaces button.active {
+    color: @crust;
+    background-color: @blue;
+}
+
+#workspaces button.urgent {
+    color: @crust;
+    background-color: @red;
+}
+
+#window {
+    padding: 0 12px;
+    color: @subtext;
+}
+
+#clock,
+#tray,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#battery {
+    padding: 0 12px;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+#pulseaudio.muted,
+#network.disconnected {
+    color: @subtext;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+}

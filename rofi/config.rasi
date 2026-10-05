@@ -1,0 +1,81 @@
+/* Catppuccin Macchiato, same flavor as tmux and waybar */
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    display-drun: "apps";
+    display-run: "run";
+    display-window: "windows";
+    drun-display-format: "{name}";
+}
+
+* {
+    base:     #24273a;
+    crust:    #181926;
+    surface0: #363a4f;
+    surface1: #494d64;
+    text:     #cad3f5;
+    subtext:  #a5adcb;
+    blue:     #8aadf4;
+
+    font: "monospace 12";
+    background-color: transparent;
+    text-color: @text;
+}
+
+window {
+    width: 600px;
+    background-color: @base;
+    border: 2px;
+    border-color: @blue;
+    border-radius: 10px;
+}
+
+mainbox {
+    padding: 12px;
+    spacing: 10px;
+}
+
+inputbar {
+    padding: 10px 12px;
+    spacing: 10px;
+    background-color: @surface0;
+    border-radius: 8px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @blue;
+}
+
+entry {
+    placeholder: "search...";
+    placeholder-color: @subtext;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    spacing: 4px;
+    scrollbar: false;
+    fixed-height: true;
+}
+
+element {
+    padding: 8px 12px;
+    spacing: 10px;
+    border-radius: 8px;
+}
+
+element selected {
+    background-color: @blue;
+    text-color: @crust;
+}
+
+element-icon {
+    size: 22px;
+}
+
+element-text {
+    text-color: inherit;
+    vertical-align: 0.5;
+}

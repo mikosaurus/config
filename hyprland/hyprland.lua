@@ -40,14 +40,14 @@ local browser     = "brave"
 
 -- See https://wiki.hypr.land/configuring/core/autostart/
 
--- Autostart necessary processes (like notifications daemons, status bars, etc.)
--- Or execute your favorite apps at launch like this:
---
--- hl.on("hyprland.start", function ()
---   hl.exec_cmd(terminal)
---   hl.exec_cmd("nm-applet")
---   hl.exec_cmd("waybar & hyprpaper & firefox")
--- end)
+-- Status bar, wallpaper, idle/lock handling and notifications.
+-- Their configs live in ~/.config/waybar and ~/.config/hypr/{hyprpaper,hypridle,hyprlock}.conf
+hl.on("hyprland.start", function ()
+    hl.exec_cmd("waybar")
+    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("hypridle")
+    hl.exec_cmd("mako")
+end)
 
 
 -------------------------------
@@ -248,6 +248,7 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + L", hl.dsp.exit())
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
