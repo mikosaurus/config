@@ -6,7 +6,7 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "<leader>fm", function()
-	require("conform").format({ bufnr = 0 })
+    require("conform").format({ bufnr = 0 })
 end)
 
 vim.keymap.set("n", "J", "mzJ`z")
@@ -53,10 +53,10 @@ vim.keymap.set("v", "<leader>wsk", "c{}<ESC>P")
 vim.keymap.set("v", "<leader>wsl", "c[]<ESC>P")
 vim.keymap.set("v", "<leader>wsn", "c<><ESC>P")
 
-vim.keymap.set({ "i", "n", "v" }, "ø", "{")
-vim.keymap.set({ "i", "n", "v" }, "æ", "}")
-vim.keymap.set({ "i", "n", "v" }, "Ø", "[")
-vim.keymap.set({ "i", "n", "v" }, "Æ", "]")
+-- vim.keymap.set({ "i", "n", "v" }, "ø", "{")
+-- vim.keymap.set({ "i", "n", "v" }, "æ", "}")
+-- vim.keymap.set({ "i", "n", "v" }, "Ø", "[")
+-- vim.keymap.set({ "i", "n", "v" }, "Æ", "]")
 vim.keymap.set({ "n", "v" }, "-", "/")
 
 vim.keymap.set("n", "<leader>md", "<cmd>NoiceDismiss<CR>", { desc = "Dismiss Noice Message" })
